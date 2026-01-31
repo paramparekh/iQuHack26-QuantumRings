@@ -1,44 +1,14 @@
 import json
+import sys
 from pathlib import Path
-from feature_extractor import extract_features
+# Add current directory to path so we can import feature_ext
+sys.path.append(str(Path(__file__).parent))
+from feature_ext import main as extract_main
 
-# Configuration
-DATA_PATH = Path('data/hackathon_public.json')
-OUTPUT_PATH = Path('data/training_features.json')
-CIRCUITS_DIR = Path('circuits')
-
-def main():
-    print(f"Reading data from {DATA_PATH}...")
-    with open(DATA_PATH, 'r') as f:
-        data = json.load(f)
-
-    # Get unique list of files
-    unique_files = set()
-    for row in data['results']:
-        unique_files.add(row['file'])
-    
-    print(f"Found {len(unique_files)} unique circuits.")
-
-    features_map = {}
-    
-    print("Extracting features...")
-    for filename in unique_files:
-        if filename in features_map:
-            continue
-            
-        fpath = CIRCUITS_DIR / filename
-        feats = extract_features(fpath)
-        
-        if feats is not None:
-            features_map[filename] = feats
-        else:
-            print(f"Failed to extract features for {filename}")
-
-    print(f"Saving {len(features_map)} feature sets to {OUTPUT_PATH}...")
-    with open(OUTPUT_PATH, 'w') as f:
-        json.dump(features_map, f, indent=2)
-    
-    print("Done.")
+# This script ensures that 'data/training_features.json' exists and is populated.
+# It now uses feature_ext.py which writes to that file by default in its main()
 
 if __name__ == "__main__":
-    main()
+    print("Running feature extraction...")
+    extract_main()
+    print("Done.")

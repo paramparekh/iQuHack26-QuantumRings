@@ -6,18 +6,20 @@ We treated the problem as two separate supervised learning tasks:
 2.  **Runtime Prediction**: A regression problem to predict the wall-clock time for the forward run.
 
 ## Features
-We extracted structural features from the QASM files using `qiskit`:
--   **Basic**: Number of Qubits, Circuit Depth, Gate Count.
--   **Gate Composition**: Counts of specific gates (e.g., `h`, `cx`, `u3`).
--   **Connectivity**: Entanglement Density (ratio of 2-qubit gates to qubits).
--   **Task Metadata**: `processor` (CPU/GPU) and `precision` (single/double) were encoded as binary features.
+We used the team's custom feature extractor (`feature_ext.py`) which includes:
+-   **Graph Analysis**: Treewidth and Interaction Graph structure.
+-   **Gate Properties**: Max Gate Arity.
+-   **Basic**: Number of Qubits, Circuit Depth, Gate Counts.
+-   **Task Metadata**: `processor` and `precision`.
 
 ## Modeling
-We used **Random Forest** models from `scikit-learn`:
--   **Classifier**: `RandomForestClassifier` for the threshold.
--   **Regressor**: `RandomForestRegressor` for the runtime (predicting log-transformed time to handle scale differences).
+We used **Random Forest** models (`scikit-learn`):
+-   **Classifier**: `RandomForestClassifier` for threshold.
+-   **Regressor**: `RandomForestRegressor` for runtime.
 
-## Validation
+## Dependencies
+-   `scikit-learn`, `qiskit`, `networkx`, `pandas`, `joblib`.
+
 -   **Public Data Split**: We used an 80/20 train/validation split on the 36 public circuits.
 -   **Local Holdout**: We simulated a holdout set using `scripts/prepare_local_test.py` on a subset of the public data to verify the full pipeline.
 -   **Local Score**: Our local validation achieved an overall score of **0.5731** (normalized).

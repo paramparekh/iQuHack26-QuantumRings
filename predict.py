@@ -4,7 +4,7 @@ import joblib
 import numpy as np
 import pandas as pd
 from pathlib import Path
-from feature_extractor import extract_features
+from feature_ext import extract_features
 
 def main():
     parser = argparse.ArgumentParser(description="Circuit Fingerprint Predictor")
@@ -61,20 +61,20 @@ def main():
         if feats is None:
             continue
             
-        # PROCESSS NESTED SCHEMA
-        # Schema: {"gates": {...}, "num_qubits": N, "depth": D, "gate_count": G, "entanglement_density": ED}
         row = {}
         row['n_qubits'] = feats['num_qubits']
         row['depth'] = feats['depth']
         row['n_gates'] = feats['gate_count']
-        row['entanglement_density'] = feats['entanglement_density']
+        row['treewidth'] = feats.get('treewidth', 1)
+        row['max_gate_arity'] = feats.get('max_gate_arity', 1)
         
         gates = feats.get('gates', {})
         for g_name, count in gates.items():
             row[f'n_{g_name}'] = count
         
         # Derived
-        row['n_2q'] = gates.get('cx', 0) + gates.get('cz', 0)
+        row['n_2q'] = gates.get('cx', 0) + gates.get('cz', 0) + gates.get('cp', 0)
+        row['entanglement_density'] = row['n_2q'] / row['n_qubits'] if row['n_qubits'] > 0 else 0
         
         row['backend_cpu'] = 1 if task['processor'] == 'CPU' else 0
         row['precision_single'] = 1 if task['precision'] == 'single' else 0

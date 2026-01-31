@@ -66,22 +66,25 @@ def get_row_data(row):
     datum['filename'] = filename
     datum['n_qubits'] = feats['num_qubits']
     datum['depth'] = feats['depth']
-    datum['n_gates'] = feats['gate_count'] # User asked for 'gate count', we'll map to 'n_gates' or keep 'gate_count'
-    # Current codebase uses 'n_gates' often, let's map to 'n_gates'.
-    datum['entanglement_density'] = feats['entanglement_density']
+    datum['n_gates'] = feats['gate_count'] 
     
-    # Flatten gates
+    # New features from feature_ext
+    datum['treewidth'] = feats.get('treewidth', 1)
+    datum['max_gate_arity'] = feats.get('max_gate_arity', 1)
+    
+    # Entanglement Density Estimate (if not directly provided)
+    # We can calculate it from gates if we want, or rely on treewidth.
+    # Let's keep a simple calculation for backward compatibility logic
+    # n_2q roughly equals cx + cz + cp etc.
     gates = feats['gates']
-    
-    # Map 'cx' -> 'n_cx'
+    n_2q = gates.get('cx', 0) + gates.get('cz', 0) + gates.get('cp', 0)
+    datum['entanglement_density'] = n_2q / feats['num_qubits'] if feats['num_qubits'] > 0 else 0
+
+    # Flatten gates
     for g_name, count in gates.items():
         datum[f'n_{g_name}'] = count
         
-    # Derived features often used
-    datum['n_2q'] = gates.get('cx', 0) + gates.get('cz', 0) 
-    
-    # We already have n_gates from the top level, no need to sum again unless we want to verify.
-    # feats['gate_count'] should be accurate.
+    datum['n_2q'] = n_2q
     
     datum['backend_cpu'] = 1 if row['backend'] == 'CPU' else 0
     datum['precision_single'] = 1 if row['precision'] == 'single' else 0
