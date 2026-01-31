@@ -1,0 +1,244 @@
+{
+  "predictions": [
+    {
+      "id": "VAL_001",
+      "predicted_threshold_min": 8,
+      "predicted_forward_wall_s": 1552.5061893032275
+    },
+    {
+      "id": "VAL_002",
+      "predicted_threshold_min": 8,
+      "predicted_forward_wall_s": 371.03235485988785
+    },
+    {
+      "id": "VAL_003",
+      "predicted_threshold_min": 8,
+      "predicted_forward_wall_s": 2002.6911233235858
+    },
+    {
+      "id": "VAL_004",
+      "predicted_threshold_min": 8,
+      "predicted_forward_wall_s": 617.9379714661841
+    },
+    {
+      "id": "VAL_005",
+      "predicted_threshold_min": 2,
+      "predicted_forward_wall_s": 8.813399073649967
+    },
+    {
+      "id": "VAL_006",
+      "predicted_threshold_min": 2,
+      "predicted_forward_wall_s": 5.728437314259277
+    },
+    {
+      "id": "VAL_007",
+      "predicted_threshold_min": 2,
+      "predicted_forward_wall_s": 9.011173447546023
+    },
+    {
+      "id": "VAL_008",
+      "predicted_threshold_min": 2,
+      "predicted_forward_wall_s": 5.9233497180515595
+    },
+    {
+      "id": "VAL_009",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 378.5571179125452
+    },
+    {
+      "id": "VAL_010",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 171.67161487874617
+    },
+    {
+      "id": "VAL_011",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 408.61601206990247
+    },
+    {
+      "id": "VAL_012",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 198.71213648985523
+    },
+    {
+      "id": "VAL_013",
+      "predicted_threshold_min": 2,
+      "predicted_forward_wall_s": 9.4024761940778
+    },
+    {
+      "id": "VAL_014",
+      "predicted_threshold_min": 2,
+      "predicted_forward_wall_s": 6.191077682922503
+    },
+    {
+      "id": "VAL_015",
+      "predicted_threshold_min": 2,
+      "predicted_forward_wall_s": 9.636889730934602
+    },
+    {
+      "id": "VAL_016",
+      "predicted_threshold_min": 2,
+      "predicted_forward_wall_s": 6.394349521517575
+    },
+    {
+      "id": "VAL_017",
+      "predicted_threshold_min": 4,
+      "predicted_forward_wall_s": 21.778505564841023
+    },
+    {
+      "id": "VAL_018",
+      "predicted_threshold_min": 256,
+      "predicted_forward_wall_s": 21.465585598895036
+    },
+    {
+      "id": "VAL_019",
+      "predicted_threshold_min": 4,
+      "predicted_forward_wall_s": 40.848503331886214
+    },
+    {
+      "id": "VAL_020",
+      "predicted_threshold_min": 4,
+      "predicted_forward_wall_s": 32.26618089765276
+    },
+    {
+      "id": "VAL_021",
+      "predicted_threshold_min": 4,
+      "predicted_forward_wall_s": 27.570012594521895
+    },
+    {
+      "id": "VAL_022",
+      "predicted_threshold_min": 256,
+      "predicted_forward_wall_s": 28.678013103745222
+    },
+    {
+      "id": "VAL_023",
+      "predicted_threshold_min": 4,
+      "predicted_forward_wall_s": 51.189915773291226
+    },
+    {
+      "id": "VAL_024",
+      "predicted_threshold_min": 4,
+      "predicted_forward_wall_s": 41.527137233606446
+    },
+    {
+      "id": "VAL_025",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 33.71311221365602
+    },
+    {
+      "id": "VAL_026",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 10.826526986074429
+    },
+    {
+      "id": "VAL_027",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 36.54288227015782
+    },
+    {
+      "id": "VAL_028",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 13.054180900222441
+    },
+    {
+      "id": "VAL_029",
+      "predicted_threshold_min": 8,
+      "predicted_forward_wall_s": 35.24985179798559
+    },
+    {
+      "id": "VAL_030",
+      "predicted_threshold_min": 8,
+      "predicted_forward_wall_s": 11.578637591816436
+    },
+    {
+      "id": "VAL_031",
+      "predicted_threshold_min": 8,
+      "predicted_forward_wall_s": 38.62243714531765
+    },
+    {
+      "id": "VAL_032",
+      "predicted_threshold_min": 8,
+      "predicted_forward_wall_s": 14.15218105181455
+    },
+    {
+      "id": "VAL_033",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 13.623282701228034
+    },
+    {
+      "id": "VAL_034",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 5.444306993449644
+    },
+    {
+      "id": "VAL_035",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 14.515024362599556
+    },
+    {
+      "id": "VAL_036",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 5.757237567003973
+    },
+    {
+      "id": "VAL_037",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 48.96936828661255
+    },
+    {
+      "id": "VAL_038",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 18.135007520868527
+    },
+    {
+      "id": "VAL_039",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 53.5760886837878
+    },
+    {
+      "id": "VAL_040",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 22.17271112589262
+    },
+    {
+      "id": "VAL_041",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 72.71001248540031
+    },
+    {
+      "id": "VAL_042",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 19.94386588886754
+    },
+    {
+      "id": "VAL_043",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 80.97982863668639
+    },
+    {
+      "id": "VAL_044",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 24.850147684389967
+    },
+    {
+      "id": "VAL_045",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 1688.6689643278014
+    },
+    {
+      "id": "VAL_046",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 468.36545841068
+    },
+    {
+      "id": "VAL_047",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 1889.5468838767622
+    },
+    {
+      "id": "VAL_048",
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 578.7855981719302
+    }
+  ]
+}
