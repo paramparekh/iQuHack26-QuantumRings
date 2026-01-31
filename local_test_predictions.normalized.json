@@ -2,243 +2,243 @@
   "predictions": [
     {
       "id": "VAL_001",
-      "predicted_threshold_min": 8,
-      "predicted_forward_wall_s": 1552.5061893032275
+      "predicted_threshold_min": 16,
+      "predicted_forward_wall_s": 71.25673774207708
     },
     {
       "id": "VAL_002",
-      "predicted_threshold_min": 8,
-      "predicted_forward_wall_s": 371.03235485988785
+      "predicted_threshold_min": 256,
+      "predicted_forward_wall_s": 55.21825576424261
     },
     {
       "id": "VAL_003",
-      "predicted_threshold_min": 8,
-      "predicted_forward_wall_s": 2002.6911233235858
+      "predicted_threshold_min": 256,
+      "predicted_forward_wall_s": 70.05972695651786
     },
     {
       "id": "VAL_004",
-      "predicted_threshold_min": 8,
-      "predicted_forward_wall_s": 617.9379714661841
+      "predicted_threshold_min": 256,
+      "predicted_forward_wall_s": 62.136013451275815
     },
     {
       "id": "VAL_005",
-      "predicted_threshold_min": 2,
-      "predicted_forward_wall_s": 8.813399073649967
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 81.63873095503165
     },
     {
       "id": "VAL_006",
-      "predicted_threshold_min": 2,
-      "predicted_forward_wall_s": 5.728437314259277
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 20.06211090471358
     },
     {
       "id": "VAL_007",
-      "predicted_threshold_min": 2,
-      "predicted_forward_wall_s": 9.011173447546023
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 79.7499400740101
     },
     {
       "id": "VAL_008",
-      "predicted_threshold_min": 2,
-      "predicted_forward_wall_s": 5.9233497180515595
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 20.034257122111153
     },
     {
       "id": "VAL_009",
-      "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 378.5571179125452
+      "predicted_threshold_min": 2,
+      "predicted_forward_wall_s": 50.877203336774556
     },
     {
       "id": "VAL_010",
-      "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 171.67161487874617
+      "predicted_threshold_min": 2,
+      "predicted_forward_wall_s": 38.87741483559024
     },
     {
       "id": "VAL_011",
-      "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 408.61601206990247
+      "predicted_threshold_min": 2,
+      "predicted_forward_wall_s": 54.9799995474593
     },
     {
       "id": "VAL_012",
-      "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 198.71213648985523
+      "predicted_threshold_min": 2,
+      "predicted_forward_wall_s": 41.322847326098476
     },
     {
       "id": "VAL_013",
       "predicted_threshold_min": 2,
-      "predicted_forward_wall_s": 9.4024761940778
+      "predicted_forward_wall_s": 10.026081564545203
     },
     {
       "id": "VAL_014",
       "predicted_threshold_min": 2,
-      "predicted_forward_wall_s": 6.191077682922503
+      "predicted_forward_wall_s": 8.202378829918885
     },
     {
       "id": "VAL_015",
       "predicted_threshold_min": 2,
-      "predicted_forward_wall_s": 9.636889730934602
+      "predicted_forward_wall_s": 10.521545827411995
     },
     {
       "id": "VAL_016",
       "predicted_threshold_min": 2,
-      "predicted_forward_wall_s": 6.394349521517575
+      "predicted_forward_wall_s": 8.234656648220144
     },
     {
       "id": "VAL_017",
-      "predicted_threshold_min": 4,
-      "predicted_forward_wall_s": 21.778505564841023
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 17.91425509429276
     },
     {
       "id": "VAL_018",
-      "predicted_threshold_min": 256,
-      "predicted_forward_wall_s": 21.465585598895036
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 7.554619184420597
     },
     {
       "id": "VAL_019",
-      "predicted_threshold_min": 4,
-      "predicted_forward_wall_s": 40.848503331886214
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 48.65633478312423
     },
     {
       "id": "VAL_020",
-      "predicted_threshold_min": 4,
-      "predicted_forward_wall_s": 32.26618089765276
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 26.469191036340334
     },
     {
       "id": "VAL_021",
-      "predicted_threshold_min": 4,
-      "predicted_forward_wall_s": 27.570012594521895
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 26.710998151709973
     },
     {
       "id": "VAL_022",
-      "predicted_threshold_min": 256,
-      "predicted_forward_wall_s": 28.678013103745222
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 9.016086944799715
     },
     {
       "id": "VAL_023",
-      "predicted_threshold_min": 4,
-      "predicted_forward_wall_s": 51.189915773291226
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 91.26292487840878
     },
     {
       "id": "VAL_024",
-      "predicted_threshold_min": 4,
-      "predicted_forward_wall_s": 41.527137233606446
+      "predicted_threshold_min": 1,
+      "predicted_forward_wall_s": 52.08768491810598
     },
     {
       "id": "VAL_025",
-      "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 33.71311221365602
+      "predicted_threshold_min": 16,
+      "predicted_forward_wall_s": 41.056844611461976
     },
     {
       "id": "VAL_026",
-      "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 10.826526986074429
+      "predicted_threshold_min": 16,
+      "predicted_forward_wall_s": 14.310467035592216
     },
     {
       "id": "VAL_027",
-      "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 36.54288227015782
+      "predicted_threshold_min": 16,
+      "predicted_forward_wall_s": 55.952634305443006
     },
     {
       "id": "VAL_028",
-      "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 13.054180900222441
+      "predicted_threshold_min": 16,
+      "predicted_forward_wall_s": 22.229872742115894
     },
     {
       "id": "VAL_029",
-      "predicted_threshold_min": 8,
-      "predicted_forward_wall_s": 35.24985179798559
+      "predicted_threshold_min": 16,
+      "predicted_forward_wall_s": 37.0126059208769
     },
     {
       "id": "VAL_030",
-      "predicted_threshold_min": 8,
-      "predicted_forward_wall_s": 11.578637591816436
+      "predicted_threshold_min": 16,
+      "predicted_forward_wall_s": 15.28320155243962
     },
     {
       "id": "VAL_031",
-      "predicted_threshold_min": 8,
-      "predicted_forward_wall_s": 38.62243714531765
+      "predicted_threshold_min": 16,
+      "predicted_forward_wall_s": 52.19702321459384
     },
     {
       "id": "VAL_032",
-      "predicted_threshold_min": 8,
-      "predicted_forward_wall_s": 14.15218105181455
+      "predicted_threshold_min": 16,
+      "predicted_forward_wall_s": 21.53347621575263
     },
     {
       "id": "VAL_033",
       "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 13.623282701228034
+      "predicted_forward_wall_s": 14.600293559271577
     },
     {
       "id": "VAL_034",
       "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 5.444306993449644
+      "predicted_forward_wall_s": 4.397335442730014
     },
     {
       "id": "VAL_035",
       "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 14.515024362599556
+      "predicted_forward_wall_s": 15.305558891679775
     },
     {
       "id": "VAL_036",
       "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 5.757237567003973
+      "predicted_forward_wall_s": 4.809329724696982
     },
     {
       "id": "VAL_037",
       "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 48.96936828661255
+      "predicted_forward_wall_s": 81.22007507079003
     },
     {
       "id": "VAL_038",
       "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 18.135007520868527
+      "predicted_forward_wall_s": 18.735318582648294
     },
     {
       "id": "VAL_039",
       "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 53.5760886837878
+      "predicted_forward_wall_s": 94.40327844824814
     },
     {
       "id": "VAL_040",
       "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 22.17271112589262
+      "predicted_forward_wall_s": 25.994039457012907
     },
     {
       "id": "VAL_041",
       "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 72.71001248540031
+      "predicted_forward_wall_s": 91.68402641154361
     },
     {
       "id": "VAL_042",
       "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 19.94386588886754
+      "predicted_forward_wall_s": 22.780490930284017
     },
     {
       "id": "VAL_043",
       "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 80.97982863668639
+      "predicted_forward_wall_s": 114.93005226922847
     },
     {
       "id": "VAL_044",
       "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 24.850147684389967
+      "predicted_forward_wall_s": 30.176904329372405
     },
     {
       "id": "VAL_045",
-      "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 1688.6689643278014
+      "predicted_threshold_min": 2,
+      "predicted_forward_wall_s": 46.252126480542245
     },
     {
       "id": "VAL_046",
-      "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 468.36545841068
+      "predicted_threshold_min": 2,
+      "predicted_forward_wall_s": 36.770261070238156
     },
     {
       "id": "VAL_047",
-      "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 1889.5468838767622
+      "predicted_threshold_min": 2,
+      "predicted_forward_wall_s": 48.60874310168189
     },
     {
       "id": "VAL_048",
-      "predicted_threshold_min": 1,
-      "predicted_forward_wall_s": 578.7855981719302
+      "predicted_threshold_min": 2,
+      "predicted_forward_wall_s": 39.233766534899004
     }
   ]
 }

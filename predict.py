@@ -41,33 +41,41 @@ def main():
     
     print(f"Processing {len(tasks)} tasks...")
     
-    # 3. Process each task
-    # To batch or not to batch? 
-    # For simplicity, extract one by one, but maybe build a DF for prediction 
-    
+    # Load feature columns used in training
+    feature_cols = joblib.load(script_dir / 'models' / 'feature_cols.joblib')
+    print(f"Using {len(feature_cols)} features.")
+
+    # 4. Process each task
     task_data = [] # List of dicts
-    valid_indices = []
     
     for i, task in enumerate(tasks):
         task_id = task['id']
         filename = id_to_file.get(task_id)
         
         if not filename:
-            print(f"Warning: No filename found for task {task_id}")
             continue
             
         qasm_path = Path(args.circuits) / filename
-        
-        # Extract Features
-        # Note: In a real submission, consider caching features if same circuit used multiple times
-        # But for now, we just run it. extract_features is fast enough (<1s per circuit usually)
         feats = extract_features(qasm_path)
         
         if feats is None:
-            # Fallback if file missing
             continue
             
-        row = feats.copy()
+        # PROCESSS NESTED SCHEMA
+        # Schema: {"gates": {...}, "num_qubits": N, "depth": D, "gate_count": G, "entanglement_density": ED}
+        row = {}
+        row['n_qubits'] = feats['num_qubits']
+        row['depth'] = feats['depth']
+        row['n_gates'] = feats['gate_count']
+        row['entanglement_density'] = feats['entanglement_density']
+        
+        gates = feats.get('gates', {})
+        for g_name, count in gates.items():
+            row[f'n_{g_name}'] = count
+        
+        # Derived
+        row['n_2q'] = gates.get('cx', 0) + gates.get('cz', 0)
+        
         row['backend_cpu'] = 1 if task['processor'] == 'CPU' else 0
         row['precision_single'] = 1 if task['precision'] == 'single' else 0
         row['task_id'] = task_id
@@ -80,9 +88,13 @@ def main():
 
     df = pd.DataFrame(task_data)
     
-    # 4. Predict
-    feature_cols = ['n_qubits', 'depth', 'n_gates', 'n_cx', 'n_cz', 'n_2q', 'backend_cpu', 'precision_single']
-    X = df[feature_cols]
+    # Ensure all columns exist
+    for col in feature_cols:
+        if col not in df.columns:
+            df[col] = 0
+            
+    # Reorder to match training
+    X = df[feature_cols].fillna(0)
     
     pred_thresh = rf_thresh.predict(X)
     pred_log_time = rf_time.predict(X)
