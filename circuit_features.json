@@ -12,6 +12,7 @@
     "family": "Amplitude_Estimation",
     "num_qubits": 130,
     "depth": 774,
+    "treewidth": 128,
     "interaction_graph": {
       "nodes": [
         0,
@@ -42092,6 +42093,7 @@
     "family": "Amplitude_Estimation",
     "num_qubits": 20,
     "depth": 114,
+    "treewidth": 18,
     "interaction_graph": {
       "nodes": [
         0,
@@ -43083,6 +43085,7 @@
     "family": "CutBell",
     "num_qubits": 30,
     "depth": 3,
+    "treewidth": 29,
     "interaction_graph": {
       "nodes": [
         0,
@@ -43310,6 +43313,7 @@
     "family": "Deutsch_Jozsa",
     "num_qubits": 130,
     "depth": 132,
+    "treewidth": 129,
     "interaction_graph": {
       "nodes": [
         0,
@@ -44747,6 +44751,7 @@
     "family": "Deutsch_Jozsa",
     "num_qubits": 15,
     "depth": 17,
+    "treewidth": 14,
     "interaction_graph": {
       "nodes": [
         0,
@@ -44919,6 +44924,7 @@
     "family": "Deutsch_Jozsa",
     "num_qubits": 30,
     "depth": 32,
+    "treewidth": 29,
     "interaction_graph": {
       "nodes": [
         0,
@@ -45255,6 +45261,7 @@
     "family": "GHZ",
     "num_qubits": 100,
     "depth": 101,
+    "treewidth": 99,
     "interaction_graph": {
       "nodes": [
         0,
@@ -46366,6 +46373,7 @@
     "family": "GHZ",
     "num_qubits": 130,
     "depth": 131,
+    "treewidth": 129,
     "interaction_graph": {
       "nodes": [
         0,
@@ -47807,6 +47815,7 @@
     "family": "GHZ",
     "num_qubits": 15,
     "depth": 16,
+    "treewidth": 14,
     "interaction_graph": {
       "nodes": [
         0,
@@ -47983,6 +47992,7 @@
     "family": "GHZ",
     "num_qubits": 30,
     "depth": 31,
+    "treewidth": 29,
     "interaction_graph": {
       "nodes": [
         0,
@@ -48324,6 +48334,7 @@
     "family": "GraphState",
     "num_qubits": 15,
     "depth": 10,
+    "treewidth": 14,
     "interaction_graph": {
       "nodes": [
         0,
@@ -48505,6 +48516,7 @@
     "family": "Ground_State",
     "num_qubits": 14,
     "depth": 43,
+    "treewidth": 13,
     "interaction_graph": {
       "nodes": [
         0,
@@ -49064,6 +49076,7 @@
     "family": "Grover_NoAncilla",
     "num_qubits": 11,
     "depth": 76677,
+    "treewidth": 9,
     "interaction_graph": {
       "nodes": [
         0,
@@ -49375,6 +49388,7 @@
     "family": "Grover_NoAncilla",
     "num_qubits": 7,
     "depth": 1124,
+    "treewidth": 5,
     "interaction_graph": {
       "nodes": [
         0,
@@ -49514,6 +49528,7 @@
     "family": "Grover_V_Chain",
     "num_qubits": 17,
     "depth": 51528,
+    "treewidth": 11,
     "interaction_graph": {
       "nodes": [
         0,
@@ -49993,6 +50008,7 @@
     "family": "Grover_V_Chain",
     "num_qubits": 7,
     "depth": 271,
+    "treewidth": 5,
     "interaction_graph": {
       "nodes": [
         0,
@@ -50128,6 +50144,7 @@
     "family": "Portfolio_QAOA",
     "num_qubits": 10,
     "depth": 43,
+    "treewidth": 9,
     "interaction_graph": {
       "nodes": [
         0,
@@ -50431,6 +50448,7 @@
     "family": "Portfolio_QAOA",
     "num_qubits": 17,
     "depth": 71,
+    "treewidth": 16,
     "interaction_graph": {
       "nodes": [
         0,
@@ -51229,6 +51247,7 @@
     "family": "Portfolio_VQE",
     "num_qubits": 10,
     "depth": 42,
+    "treewidth": 9,
     "interaction_graph": {
       "nodes": [
         0,
@@ -51530,6 +51549,7 @@
     "family": "Portfolio_VQE",
     "num_qubits": 18,
     "depth": 74,
+    "treewidth": 17,
     "interaction_graph": {
       "nodes": [
         0,
@@ -52424,6 +52444,7 @@
     "family": "Pricing_Call",
     "num_qubits": 17,
     "depth": 610,
+    "treewidth": 16,
     "interaction_graph": {
       "nodes": [
         0,
@@ -52868,6 +52889,7 @@
     "family": "QAOA",
     "num_qubits": 16,
     "depth": 11,
+    "treewidth": 15,
     "interaction_graph": {
       "nodes": [
         0,
@@ -53062,6 +53084,7 @@
     "family": "QFT_Entangled",
     "num_qubits": 15,
     "depth": 33,
+    "treewidth": 14,
     "interaction_graph": {
       "nodes": [
         0,
@@ -53695,6 +53718,7 @@
     "family": "QFT_Entangled",
     "num_qubits": 30,
     "depth": 63,
+    "treewidth": 29,
     "interaction_graph": {
       "nodes": [
         0,
@@ -56067,6 +56091,7 @@
     "family": "QFT",
     "num_qubits": 130,
     "depth": 261,
+    "treewidth": 129,
     "interaction_graph": {
       "nodes": [
         0,
@@ -98789,6 +98814,7 @@
     "family": "QFT",
     "num_qubits": 15,
     "depth": 31,
+    "treewidth": 14,
     "interaction_graph": {
       "nodes": [
         0,
@@ -99421,6 +99447,7 @@
     "family": "QFT",
     "num_qubits": 30,
     "depth": 61,
+    "treewidth": 29,
     "interaction_graph": {
       "nodes": [
         0,
@@ -101794,6 +101821,7 @@
     "family": "QNN",
     "num_qubits": 20,
     "depth": 195,
+    "treewidth": 19,
     "interaction_graph": {
       "nodes": [
         0,
@@ -102882,6 +102910,7 @@
     "family": "QPE_Exact",
     "num_qubits": 100,
     "depth": 299,
+    "treewidth": 98,
     "interaction_graph": {
       "nodes": [
         0,
@@ -127750,6 +127779,7 @@
     "family": "QPE_Exact",
     "num_qubits": 30,
     "depth": 87,
+    "treewidth": 28,
     "interaction_graph": {
       "nodes": [
         0,
@@ -129977,6 +130007,7 @@
     "family": "Shor",
     "num_qubits": 18,
     "depth": 6214,
+    "treewidth": 7,
     "interaction_graph": {
       "nodes": [
         0,
@@ -130241,6 +130272,7 @@
     "family": "TwoLocalRandom",
     "num_qubits": 30,
     "depth": 122,
+    "treewidth": 29,
     "interaction_graph": {
       "nodes": [
         0,
@@ -132612,6 +132644,7 @@
     "family": "VQE",
     "num_qubits": 16,
     "depth": 21,
+    "treewidth": 15,
     "interaction_graph": {
       "nodes": [
         0,
@@ -132801,6 +132834,7 @@
     "family": "W_State",
     "num_qubits": 130,
     "depth": 261,
+    "treewidth": 129,
     "interaction_graph": {
       "nodes": [
         0,
@@ -134244,6 +134278,7 @@
     "family": "W_State",
     "num_qubits": 15,
     "depth": 31,
+    "treewidth": 14,
     "interaction_graph": {
       "nodes": [
         0,
@@ -134422,6 +134457,7 @@
     "family": "W_State",
     "num_qubits": 30,
     "depth": 61,
+    "treewidth": 29,
     "interaction_graph": {
       "nodes": [
         0,
