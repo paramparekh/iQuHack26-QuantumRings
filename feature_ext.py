@@ -3,6 +3,7 @@ import json
 import re
 from itertools import combinations
 from collections import defaultdict
+from qiskit import QuantumCircuit
 
 circuit_path = "../2026-Quantum-Rings/circuits/"
 training_data_path = "../2026-Quantum-Rings/data/hackathon_public.json"
@@ -93,6 +94,14 @@ for fname in os.listdir(circuit_path):
     else:
         computed_n_qubits = max_index + 1 if max_index >= 0 else 0
 
+    # Load QASM circuit and calculate depth
+    try:
+        qc = QuantumCircuit.from_qasm_file(full_path)
+        circuit_depth = qc.depth()
+    except Exception as e:
+        print(f"Error loading {fname}: {e}")
+        circuit_depth = None
+
     # Build interaction graph structure
     nodes = list(range(computed_n_qubits))
     edges_list = [[a, b, w] for (a, b), w in edges.items()]
@@ -101,6 +110,7 @@ for fname in os.listdir(circuit_path):
         'gates': dict(gates),
         'family': circuit_info.get(fname, {}).get('family', 'Unknown'),
         'num_qubits': computed_n_qubits,
+        'depth': circuit_depth,
         'interaction_graph': {
             'nodes': nodes,
             'edges': edges_list  # each edge: [qubit_a, qubit_b, weight]
