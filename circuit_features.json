@@ -1,0 +1,392 @@
+{
+  "ae_indep_qiskit_130.qasm": {
+    "gates": {
+      "u2": 129,
+      "u3": 129,
+      "cx": 258,
+      "u": 130,
+      "h": 129,
+      "cp": 8256,
+      "measure": 130
+    },
+    "family": "Amplitude_Estimation",
+    "num_qubits": 130
+  },
+  "ae_indep_qiskit_20.qasm": {
+    "gates": {
+      "u2": 19,
+      "u3": 19,
+      "cx": 38,
+      "u": 20,
+      "h": 19,
+      "cp": 171,
+      "measure": 20
+    },
+    "family": "Amplitude_Estimation",
+    "num_qubits": 20
+  },
+  "cutbell_n30_k6.qasm": {
+    "gates": {
+      "h": 6,
+      "cx": 6,
+      "measure": 30
+    },
+    "family": "CutBell",
+    "num_qubits": 30
+  },
+  "dj_indep_qiskit_130.qasm": {
+    "gates": {
+      "u2": 119,
+      "h": 140,
+      "cx": 129,
+      "measure": 129
+    },
+    "family": "Deutsch_Jozsa",
+    "num_qubits": 130
+  },
+  "dj_indep_qiskit_15.qasm": {
+    "gates": {
+      "u2": 19,
+      "h": 10,
+      "cx": 14,
+      "measure": 14
+    },
+    "family": "Deutsch_Jozsa",
+    "num_qubits": 15
+  },
+  "dj_indep_qiskit_30.qasm": {
+    "gates": {
+      "u2": 29,
+      "h": 30,
+      "cx": 29,
+      "measure": 29
+    },
+    "family": "Deutsch_Jozsa",
+    "num_qubits": 30
+  },
+  "ghz_indep_qiskit_100.qasm": {
+    "gates": {
+      "h": 1,
+      "cx": 99,
+      "measure": 100
+    },
+    "family": "GHZ",
+    "num_qubits": 100
+  },
+  "ghz_indep_qiskit_130.qasm": {
+    "gates": {
+      "h": 1,
+      "cx": 129,
+      "measure": 130
+    },
+    "family": "GHZ",
+    "num_qubits": 130
+  },
+  "ghz_indep_qiskit_15.qasm": {
+    "gates": {
+      "h": 1,
+      "cx": 14,
+      "measure": 15
+    },
+    "family": "GHZ",
+    "num_qubits": 15
+  },
+  "ghz_indep_qiskit_30.qasm": {
+    "gates": {
+      "h": 1,
+      "cx": 29,
+      "measure": 30
+    },
+    "family": "GHZ",
+    "num_qubits": 30
+  },
+  "graphstate_indep_qiskit_15.qasm": {
+    "gates": {
+      "h": 15,
+      "cz": 15,
+      "measure": 15
+    },
+    "family": "GraphState",
+    "num_qubits": 15
+  },
+  "groundstate_large_indep_qiskit_14.qasm": {
+    "gates": {
+      "u2": 42,
+      "cz": 182,
+      "measure": 14
+    },
+    "family": "Ground_State",
+    "num_qubits": 14
+  },
+  "grover-noancilla_indep_qiskit_11.qasm": {
+    "gates": {
+      "h": 10,
+      "x": 1,
+      "cp": 25575,
+      "cx": 38300,
+      "u2": 500,
+      "cu1": 12775,
+      "measure": 11
+    },
+    "family": "Grover_NoAncilla",
+    "num_qubits": 11
+  },
+  "grover-noancilla_indep_qiskit_7.qasm": {
+    "gates": {
+      "h": 6,
+      "x": 1,
+      "cp": 378,
+      "cx": 552,
+      "u2": 72,
+      "cu1": 186,
+      "measure": 7
+    },
+    "family": "Grover_NoAncilla",
+    "num_qubits": 7
+  },
+  "grover-v-chain_indep_qiskit_17.qasm": {
+    "gates": {
+      "h": 10,
+      "x": 1,
+      "cp": 25575,
+      "cx": 25550,
+      "u2": 450,
+      "rccx": 350,
+      "u1": 50,
+      "ccx": 25,
+      "measure": 17
+    },
+    "family": "Grover_V_Chain",
+    "num_qubits": 17
+  },
+  "grover-v-chain_indep_qiskit_7.qasm": {
+    "gates": {
+      "h": 5,
+      "x": 1,
+      "cp": 124,
+      "cx": 120,
+      "u2": 32,
+      "rccx": 16,
+      "u1": 8,
+      "ccx": 4,
+      "measure": 7
+    },
+    "family": "Grover_V_Chain",
+    "num_qubits": 7
+  },
+  "portfolioqaoa_indep_qiskit_10.qasm": {
+    "gates": {
+      "u2": 10,
+      "rzz": 135,
+      "u3": 20,
+      "rx": 10,
+      "measure": 20
+    },
+    "family": "Portfolio_QAOA",
+    "num_qubits": 10
+  },
+  "portfolioqaoa_indep_qiskit_17.qasm": {
+    "gates": {
+      "u2": 17,
+      "rzz": 408,
+      "u3": 34,
+      "rx": 17,
+      "measure": 34
+    },
+    "family": "Portfolio_QAOA",
+    "num_qubits": 17
+  },
+  "portfoliovqe_indep_qiskit_10.qasm": {
+    "gates": {
+      "ry": 40,
+      "cz": 135,
+      "measure": 10
+    },
+    "family": "Portfolio_VQE",
+    "num_qubits": 10
+  },
+  "portfoliovqe_indep_qiskit_18.qasm": {
+    "gates": {
+      "ry": 72,
+      "cz": 459,
+      "measure": 18
+    },
+    "family": "Portfolio_VQE",
+    "num_qubits": 18
+  },
+  "pricingcall_indep_qiskit_17.qasm": {
+    "gates": {
+      "ry": 256,
+      "cx": 288,
+      "cry": 8,
+      "x": 32,
+      "ccx": 42,
+      "u": 33,
+      "u3": 1,
+      "measure": 17
+    },
+    "family": "Pricing_Call",
+    "num_qubits": 17
+  },
+  "qaoa_indep_qiskit_16.qasm": {
+    "gates": {
+      "h": 16,
+      "rzz": 32,
+      "rx": 32,
+      "measure": 16
+    },
+    "family": "QAOA",
+    "num_qubits": 16
+  },
+  "qftentangled_indep_qiskit_15.qasm": {
+    "gates": {
+      "h": 16,
+      "cx": 14,
+      "cp": 105,
+      "swap": 7,
+      "measure": 15
+    },
+    "family": "QFT_Entangled",
+    "num_qubits": 15
+  },
+  "qftentangled_indep_qiskit_30.qasm": {
+    "gates": {
+      "h": 31,
+      "cx": 29,
+      "cp": 435,
+      "swap": 15,
+      "measure": 30
+    },
+    "family": "QFT_Entangled",
+    "num_qubits": 30
+  },
+  "qft_indep_qiskit_130.qasm": {
+    "gates": {
+      "h": 130,
+      "cp": 8385,
+      "swap": 65,
+      "measure": 130
+    },
+    "family": "QFT",
+    "num_qubits": 130
+  },
+  "qft_indep_qiskit_15.qasm": {
+    "gates": {
+      "h": 15,
+      "cp": 105,
+      "swap": 7,
+      "measure": 15
+    },
+    "family": "QFT",
+    "num_qubits": 15
+  },
+  "qft_indep_qiskit_30.qasm": {
+    "gates": {
+      "h": 30,
+      "cp": 435,
+      "swap": 15,
+      "measure": 30
+    },
+    "family": "QFT",
+    "num_qubits": 30
+  },
+  "qnn_indep_qiskit_20.qasm": {
+    "gates": {
+      "u2": 40,
+      "cx": 779,
+      "p": 380,
+      "ry": 40,
+      "measure": 20
+    },
+    "family": "QNN",
+    "num_qubits": 20
+  },
+  "qpeexact_indep_qiskit_100.qasm": {
+    "gates": {
+      "h": 198,
+      "x": 1,
+      "cp": 4950,
+      "swap": 49,
+      "measure": 99
+    },
+    "family": "QPE_Exact",
+    "num_qubits": 100
+  },
+  "qpeexact_indep_qiskit_30.qasm": {
+    "gates": {
+      "h": 58,
+      "x": 1,
+      "cp": 434,
+      "swap": 14,
+      "measure": 29
+    },
+    "family": "QPE_Exact",
+    "num_qubits": 30
+  },
+  "shor_15_4_indep_qiskit_18.qasm": {
+    "gates": {
+      "h": 1234,
+      "x": 1,
+      "cp": 6108,
+      "cx": 2048,
+      "u2": 192,
+      "p": 256,
+      "cswap": 32,
+      "swap": 4,
+      "measure": 18
+    },
+    "family": "Shor",
+    "num_qubits": 18
+  },
+  "twolocalrandom_indep_qiskit_30.qasm": {
+    "gates": {
+      "ry": 120,
+      "cx": 1305,
+      "measure": 30
+    },
+    "family": "TwoLocalRandom",
+    "num_qubits": 30
+  },
+  "vqe_indep_qiskit_16.qasm": {
+    "gates": {
+      "ry": 48,
+      "cx": 30,
+      "measure": 16
+    },
+    "family": "VQE",
+    "num_qubits": 16
+  },
+  "wstate_indep_qiskit_130.qasm": {
+    "gates": {
+      "ry": 258,
+      "x": 1,
+      "cz": 129,
+      "cx": 129,
+      "measure": 130
+    },
+    "family": "W_State",
+    "num_qubits": 130
+  },
+  "wstate_indep_qiskit_15.qasm": {
+    "gates": {
+      "ry": 28,
+      "x": 1,
+      "cz": 14,
+      "cx": 14,
+      "measure": 15
+    },
+    "family": "W_State",
+    "num_qubits": 15
+  },
+  "wstate_indep_qiskit_30.qasm": {
+    "gates": {
+      "ry": 58,
+      "x": 1,
+      "cz": 29,
+      "cx": 29,
+      "measure": 30
+    },
+    "family": "W_State",
+    "num_qubits": 30
+  }
+}
