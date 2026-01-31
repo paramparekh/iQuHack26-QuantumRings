@@ -2,241 +2,241 @@
   {
     "id": "VAL_001",
     "predicted_threshold_min": 16,
-    "predicted_forward_wall_s": 77.32360240671366
+    "predicted_forward_wall_s": 78.25854384947311
   },
   {
     "id": "VAL_002",
     "predicted_threshold_min": 256,
-    "predicted_forward_wall_s": 49.377708153912195
+    "predicted_forward_wall_s": 49.08425892296269
   },
   {
     "id": "VAL_003",
     "predicted_threshold_min": 256,
-    "predicted_forward_wall_s": 73.5384453301069
+    "predicted_forward_wall_s": 73.95069655004535
   },
   {
     "id": "VAL_004",
     "predicted_threshold_min": 256,
-    "predicted_forward_wall_s": 55.93239830275564
+    "predicted_forward_wall_s": 58.91586325609919
   },
   {
     "id": "VAL_005",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 82.76712122930581
+    "predicted_forward_wall_s": 81.51360177225759
   },
   {
     "id": "VAL_006",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 20.78828527030695
+    "predicted_forward_wall_s": 20.899839261398416
   },
   {
     "id": "VAL_007",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 86.5489908398708
+    "predicted_forward_wall_s": 86.03625954902044
   },
   {
     "id": "VAL_008",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 22.832348265935398
+    "predicted_forward_wall_s": 23.919346906347066
   },
   {
     "id": "VAL_009",
     "predicted_threshold_min": 2,
-    "predicted_forward_wall_s": 39.17966232550611
+    "predicted_forward_wall_s": 39.33938534763142
   },
   {
     "id": "VAL_010",
     "predicted_threshold_min": 2,
-    "predicted_forward_wall_s": 34.62694280136997
+    "predicted_forward_wall_s": 34.739481918736566
   },
   {
     "id": "VAL_011",
     "predicted_threshold_min": 2,
-    "predicted_forward_wall_s": 41.37491381525466
+    "predicted_forward_wall_s": 41.342545248689085
   },
   {
     "id": "VAL_012",
     "predicted_threshold_min": 2,
-    "predicted_forward_wall_s": 34.851590089959195
+    "predicted_forward_wall_s": 35.19447632751429
   },
   {
     "id": "VAL_013",
     "predicted_threshold_min": 2,
-    "predicted_forward_wall_s": 10.43521115876453
+    "predicted_forward_wall_s": 10.334518071746716
   },
   {
     "id": "VAL_014",
     "predicted_threshold_min": 2,
-    "predicted_forward_wall_s": 8.09248959552633
+    "predicted_forward_wall_s": 8.100351991781174
   },
   {
     "id": "VAL_015",
     "predicted_threshold_min": 2,
-    "predicted_forward_wall_s": 10.726127713869422
+    "predicted_forward_wall_s": 10.632317928404039
   },
   {
     "id": "VAL_016",
     "predicted_threshold_min": 2,
-    "predicted_forward_wall_s": 8.520393757820962
+    "predicted_forward_wall_s": 8.485623385549573
   },
   {
     "id": "VAL_017",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 11.928794341708134
+    "predicted_forward_wall_s": 11.494679889269147
   },
   {
     "id": "VAL_018",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 4.120287098761691
+    "predicted_forward_wall_s": 4.230328950300498
   },
   {
     "id": "VAL_019",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 17.50620298128643
+    "predicted_forward_wall_s": 15.347177662842121
   },
   {
     "id": "VAL_020",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 7.1899075272970805
+    "predicted_forward_wall_s": 7.11852425956668
   },
   {
     "id": "VAL_021",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 29.808031609142294
+    "predicted_forward_wall_s": 30.335074372655235
   },
   {
     "id": "VAL_022",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 8.545548298808585
+    "predicted_forward_wall_s": 8.658541363368236
   },
   {
     "id": "VAL_023",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 94.75630459951758
+    "predicted_forward_wall_s": 95.31187897281441
   },
   {
     "id": "VAL_024",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 47.545305051917204
+    "predicted_forward_wall_s": 47.74404597004516
   },
   {
     "id": "VAL_025",
     "predicted_threshold_min": 16,
-    "predicted_forward_wall_s": 38.71354029424676
+    "predicted_forward_wall_s": 37.98351693693067
   },
   {
     "id": "VAL_026",
     "predicted_threshold_min": 16,
-    "predicted_forward_wall_s": 15.532853964042538
+    "predicted_forward_wall_s": 15.784083630395372
   },
   {
     "id": "VAL_027",
     "predicted_threshold_min": 16,
-    "predicted_forward_wall_s": 52.302492716991544
+    "predicted_forward_wall_s": 52.375094987417384
   },
   {
     "id": "VAL_028",
     "predicted_threshold_min": 16,
-    "predicted_forward_wall_s": 23.82179619358728
+    "predicted_forward_wall_s": 24.423942643494676
   },
   {
     "id": "VAL_029",
     "predicted_threshold_min": 16,
-    "predicted_forward_wall_s": 37.432444915181904
+    "predicted_forward_wall_s": 37.323664982000444
   },
   {
     "id": "VAL_030",
     "predicted_threshold_min": 16,
-    "predicted_forward_wall_s": 15.658063206690334
+    "predicted_forward_wall_s": 15.308634088315651
   },
   {
     "id": "VAL_031",
     "predicted_threshold_min": 16,
-    "predicted_forward_wall_s": 50.388776655594555
+    "predicted_forward_wall_s": 48.95739271687478
   },
   {
     "id": "VAL_032",
     "predicted_threshold_min": 16,
-    "predicted_forward_wall_s": 21.713517631966887
+    "predicted_forward_wall_s": 21.17977573366874
   },
   {
     "id": "VAL_033",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 14.793260526399724
+    "predicted_forward_wall_s": 15.024962569212057
   },
   {
     "id": "VAL_034",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 4.39345132903346
+    "predicted_forward_wall_s": 4.331712709778229
   },
   {
     "id": "VAL_035",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 15.827994200948124
+    "predicted_forward_wall_s": 16.089481159737865
   },
   {
     "id": "VAL_036",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 4.813779178672288
+    "predicted_forward_wall_s": 4.781386086617193
   },
   {
     "id": "VAL_037",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 64.59581813575461
+    "predicted_forward_wall_s": 65.36097033408346
   },
   {
     "id": "VAL_038",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 15.987859572909546
+    "predicted_forward_wall_s": 16.140994796228366
   },
   {
     "id": "VAL_039",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 73.41508973937833
+    "predicted_forward_wall_s": 75.36049719434007
   },
   {
     "id": "VAL_040",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 21.680532754542938
+    "predicted_forward_wall_s": 21.811712965669457
   },
   {
     "id": "VAL_041",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 105.27219734301029
+    "predicted_forward_wall_s": 103.24290495210957
   },
   {
     "id": "VAL_042",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 24.72642614512921
+    "predicted_forward_wall_s": 24.762850661890305
   },
   {
     "id": "VAL_043",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 108.55867523356595
+    "predicted_forward_wall_s": 110.9802368345186
   },
   {
     "id": "VAL_044",
     "predicted_threshold_min": 1,
-    "predicted_forward_wall_s": 31.5653662174517
+    "predicted_forward_wall_s": 31.724161288985112
   },
   {
     "id": "VAL_045",
     "predicted_threshold_min": 2,
-    "predicted_forward_wall_s": 41.701943469507185
+    "predicted_forward_wall_s": 41.5723858530804
   },
   {
     "id": "VAL_046",
     "predicted_threshold_min": 2,
-    "predicted_forward_wall_s": 33.31502931861226
+    "predicted_forward_wall_s": 34.404782021979486
   },
   {
     "id": "VAL_047",
     "predicted_threshold_min": 2,
-    "predicted_forward_wall_s": 46.75477276514923
+    "predicted_forward_wall_s": 48.17981115728806
   },
   {
     "id": "VAL_048",
     "predicted_threshold_min": 2,
-    "predicted_forward_wall_s": 36.19234302775708
+    "predicted_forward_wall_s": 36.499356707360626
   }
 ]
