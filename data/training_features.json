@@ -1,0 +1,452 @@
+{
+  "portfolioqaoa_indep_qiskit_17.qasm": {
+    "gates": {
+      "rzz": 408,
+      "u3": 34,
+      "measure": 34,
+      "u2": 17
+    },
+    "num_qubits": 17,
+    "depth": 71,
+    "gate_count": 512,
+    "entanglement_density": 0.0
+  },
+  "dj_indep_qiskit_15.qasm": {
+    "gates": {
+      "u2": 19,
+      "cx": 14,
+      "measure": 14,
+      "h": 10
+    },
+    "num_qubits": 15,
+    "depth": 17,
+    "gate_count": 58,
+    "entanglement_density": 0.9333333333333333
+  },
+  "pricingcall_indep_qiskit_17.qasm": {
+    "gates": {
+      "cx": 288,
+      "ccx": 42,
+      "u": 33,
+      "x": 32,
+      "measure": 17,
+      "cry": 8,
+      "u3": 1
+    },
+    "num_qubits": 17,
+    "depth": 610,
+    "gate_count": 678,
+    "entanglement_density": 16.941176470588236
+  },
+  "cutbell_n30_k6.qasm": {
+    "gates": {
+      "measure": 30,
+      "h": 6,
+      "cx": 6
+    },
+    "num_qubits": 30,
+    "depth": 3,
+    "gate_count": 42,
+    "entanglement_density": 0.2
+  },
+  "wstate_indep_qiskit_15.qasm": {
+    "gates": {
+      "measure": 15,
+      "cz": 14,
+      "cx": 14,
+      "x": 1
+    },
+    "num_qubits": 15,
+    "depth": 31,
+    "gate_count": 73,
+    "entanglement_density": 1.8666666666666667
+  },
+  "grover-noancilla_indep_qiskit_7.qasm": {
+    "gates": {
+      "cx": 552,
+      "cp": 378,
+      "cu1": 186,
+      "u2": 72,
+      "measure": 7,
+      "h": 6,
+      "x": 1
+    },
+    "num_qubits": 7,
+    "depth": 1124,
+    "gate_count": 1203,
+    "entanglement_density": 78.85714285714286
+  },
+  "qpeexact_indep_qiskit_100.qasm": {
+    "gates": {
+      "cp": 4950,
+      "h": 198,
+      "measure": 99,
+      "swap": 49,
+      "x": 1
+    },
+    "num_qubits": 100,
+    "depth": 299,
+    "gate_count": 5298,
+    "entanglement_density": 0.0
+  },
+  "grover-v-chain_indep_qiskit_7.qasm": {
+    "gates": {
+      "cp": 124,
+      "cx": 120,
+      "u2": 32,
+      "rccx": 16,
+      "u1": 8,
+      "measure": 7,
+      "h": 5,
+      "ccx": 4,
+      "x": 1
+    },
+    "num_qubits": 7,
+    "depth": 271,
+    "gate_count": 318,
+    "entanglement_density": 17.142857142857142
+  },
+  "ae_indep_qiskit_20.qasm": {
+    "gates": {
+      "cp": 171,
+      "cx": 38,
+      "u": 20,
+      "measure": 20,
+      "u2": 19,
+      "u3": 19,
+      "h": 19
+    },
+    "num_qubits": 20,
+    "depth": 114,
+    "gate_count": 307,
+    "entanglement_density": 1.9
+  },
+  "qft_indep_qiskit_30.qasm": {
+    "gates": {
+      "cp": 435,
+      "h": 30,
+      "measure": 30,
+      "swap": 15
+    },
+    "num_qubits": 30,
+    "depth": 61,
+    "gate_count": 511,
+    "entanglement_density": 0.0
+  },
+  "dj_indep_qiskit_130.qasm": {
+    "gates": {
+      "h": 140,
+      "cx": 129,
+      "measure": 129,
+      "u2": 119
+    },
+    "num_qubits": 130,
+    "depth": 132,
+    "gate_count": 518,
+    "entanglement_density": 0.9923076923076923
+  },
+  "wstate_indep_qiskit_30.qasm": {
+    "gates": {
+      "measure": 30,
+      "cz": 29,
+      "cx": 29,
+      "x": 1
+    },
+    "num_qubits": 30,
+    "depth": 61,
+    "gate_count": 148,
+    "entanglement_density": 1.9333333333333333
+  },
+  "dj_indep_qiskit_30.qasm": {
+    "gates": {
+      "h": 30,
+      "u2": 29,
+      "cx": 29,
+      "measure": 29
+    },
+    "num_qubits": 30,
+    "depth": 32,
+    "gate_count": 118,
+    "entanglement_density": 0.9666666666666667
+  },
+  "vqe_indep_qiskit_16.qasm": {
+    "gates": {
+      "cx": 30,
+      "measure": 16
+    },
+    "num_qubits": 16,
+    "depth": 21,
+    "gate_count": 95,
+    "entanglement_density": 1.875
+  },
+  "groundstate_large_indep_qiskit_14.qasm": {
+    "gates": {
+      "cz": 182,
+      "u2": 42,
+      "measure": 14
+    },
+    "num_qubits": 14,
+    "depth": 43,
+    "gate_count": 239,
+    "entanglement_density": 13.0
+  },
+  "ghz_indep_qiskit_15.qasm": {
+    "gates": {
+      "measure": 15,
+      "cx": 14,
+      "h": 1
+    },
+    "num_qubits": 15,
+    "depth": 16,
+    "gate_count": 31,
+    "entanglement_density": 0.9333333333333333
+  },
+  "qftentangled_indep_qiskit_30.qasm": {
+    "gates": {
+      "cp": 435,
+      "h": 31,
+      "measure": 30,
+      "cx": 29,
+      "swap": 15
+    },
+    "num_qubits": 30,
+    "depth": 63,
+    "gate_count": 541,
+    "entanglement_density": 0.9666666666666667
+  },
+  "wstate_indep_qiskit_130.qasm": {
+    "gates": {
+      "measure": 130,
+      "cz": 129,
+      "cx": 129,
+      "x": 1
+    },
+    "num_qubits": 130,
+    "depth": 261,
+    "gate_count": 648,
+    "entanglement_density": 1.9846153846153847
+  },
+  "portfolioqaoa_indep_qiskit_10.qasm": {
+    "gates": {
+      "rzz": 135,
+      "u3": 20,
+      "measure": 20,
+      "u2": 10
+    },
+    "num_qubits": 10,
+    "depth": 43,
+    "gate_count": 197,
+    "entanglement_density": 0.0
+  },
+  "shor_15_4_indep_qiskit_18.qasm": {
+    "gates": {
+      "cp": 6108,
+      "cx": 2048,
+      "h": 1234,
+      "p": 256,
+      "u2": 192,
+      "cswap": 32,
+      "measure": 18,
+      "swap": 4,
+      "x": 1
+    },
+    "num_qubits": 18,
+    "depth": 6214,
+    "gate_count": 9894,
+    "entanglement_density": 113.77777777777777
+  },
+  "ghz_indep_qiskit_30.qasm": {
+    "gates": {
+      "measure": 30,
+      "cx": 29,
+      "h": 1
+    },
+    "num_qubits": 30,
+    "depth": 31,
+    "gate_count": 61,
+    "entanglement_density": 0.9666666666666667
+  },
+  "qpeexact_indep_qiskit_30.qasm": {
+    "gates": {
+      "cp": 434,
+      "h": 58,
+      "measure": 29,
+      "swap": 14,
+      "x": 1
+    },
+    "num_qubits": 30,
+    "depth": 87,
+    "gate_count": 537,
+    "entanglement_density": 0.0
+  },
+  "ghz_indep_qiskit_100.qasm": {
+    "gates": {
+      "measure": 100,
+      "cx": 99,
+      "h": 1
+    },
+    "num_qubits": 100,
+    "depth": 101,
+    "gate_count": 201,
+    "entanglement_density": 0.99
+  },
+  "grover-v-chain_indep_qiskit_17.qasm": {
+    "gates": {
+      "cp": 25575,
+      "cx": 25550,
+      "u2": 450,
+      "rccx": 350,
+      "u1": 50,
+      "ccx": 25,
+      "measure": 17,
+      "h": 10,
+      "x": 1
+    },
+    "num_qubits": 17,
+    "depth": 51528,
+    "gate_count": 52029,
+    "entanglement_density": 1502.9411764705883
+  },
+  "portfoliovqe_indep_qiskit_10.qasm": {
+    "gates": {
+      "cz": 135,
+      "measure": 10
+    },
+    "num_qubits": 10,
+    "depth": 42,
+    "gate_count": 186,
+    "entanglement_density": 13.5
+  },
+  "portfoliovqe_indep_qiskit_18.qasm": {
+    "gates": {
+      "cz": 459,
+      "measure": 18
+    },
+    "num_qubits": 18,
+    "depth": 74,
+    "gate_count": 550,
+    "entanglement_density": 25.5
+  },
+  "ae_indep_qiskit_130.qasm": {
+    "gates": {
+      "cp": 8256,
+      "cx": 258,
+      "u": 130,
+      "measure": 130,
+      "u2": 129,
+      "u3": 129,
+      "h": 129
+    },
+    "num_qubits": 130,
+    "depth": 774,
+    "gate_count": 9162,
+    "entanglement_density": 1.9846153846153847
+  },
+  "ghz_indep_qiskit_130.qasm": {
+    "gates": {
+      "measure": 130,
+      "cx": 129,
+      "h": 1
+    },
+    "num_qubits": 130,
+    "depth": 131,
+    "gate_count": 261,
+    "entanglement_density": 0.9923076923076923
+  },
+  "graphstate_indep_qiskit_15.qasm": {
+    "gates": {
+      "h": 15,
+      "cz": 15,
+      "measure": 15
+    },
+    "num_qubits": 15,
+    "depth": 10,
+    "gate_count": 46,
+    "entanglement_density": 1.0
+  },
+  "qft_indep_qiskit_130.qasm": {
+    "gates": {
+      "cp": 8385,
+      "h": 130,
+      "measure": 130,
+      "swap": 65
+    },
+    "num_qubits": 130,
+    "depth": 261,
+    "gate_count": 8711,
+    "entanglement_density": 0.0
+  },
+  "qft_indep_qiskit_15.qasm": {
+    "gates": {
+      "cp": 105,
+      "h": 15,
+      "measure": 15,
+      "swap": 7
+    },
+    "num_qubits": 15,
+    "depth": 31,
+    "gate_count": 143,
+    "entanglement_density": 0.0
+  },
+  "qftentangled_indep_qiskit_15.qasm": {
+    "gates": {
+      "cp": 105,
+      "h": 16,
+      "measure": 15,
+      "cx": 14,
+      "swap": 7
+    },
+    "num_qubits": 15,
+    "depth": 33,
+    "gate_count": 158,
+    "entanglement_density": 0.9333333333333333
+  },
+  "grover-noancilla_indep_qiskit_11.qasm": {
+    "gates": {
+      "cx": 38300,
+      "cp": 25575,
+      "cu1": 12775,
+      "u2": 500,
+      "measure": 11,
+      "h": 10,
+      "x": 1
+    },
+    "num_qubits": 11,
+    "depth": 76677,
+    "gate_count": 77173,
+    "entanglement_density": 3481.818181818182
+  },
+  "qnn_indep_qiskit_20.qasm": {
+    "gates": {
+      "cx": 779,
+      "p": 380,
+      "u2": 40,
+      "measure": 20
+    },
+    "num_qubits": 20,
+    "depth": 195,
+    "gate_count": 1260,
+    "entanglement_density": 38.95
+  },
+  "qaoa_indep_qiskit_16.qasm": {
+    "gates": {
+      "rzz": 32,
+      "h": 16,
+      "measure": 16
+    },
+    "num_qubits": 16,
+    "depth": 11,
+    "gate_count": 97,
+    "entanglement_density": 0.0
+  },
+  "twolocalrandom_indep_qiskit_30.qasm": {
+    "gates": {
+      "cx": 1305,
+      "measure": 30
+    },
+    "num_qubits": 30,
+    "depth": 122,
+    "gate_count": 1456,
+    "entanglement_density": 43.5
+  }
+}
