@@ -18,19 +18,6 @@ for circuit in training_data['circuits']:
         'n_qubits': circuit['n_qubits']
     }
 
-# Create a mapping from filename to results (taking the best result per file)
-# results_info = {}
-# for result in training_data['results']:
-#     file = result['file']
-#     if file not in results_info or result['selection']['selected_mirror_metric_value'] > results_info[file].get('fidelity', 0):
-#         results_info[file] = {
-#             'backend': result['backend'],
-#             'precision': result['precision'],
-#             'status': result['status'],
-#             'selected_threshold': result['selection']['selected_threshold'],
-#             'fidelity': result['selection']['selected_mirror_metric_value']
-#         }
-
 for circuits in os.listdir(circuit_path):
     if not circuits.endswith('.qasm'):
         continue
