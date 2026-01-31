@@ -13,6 +13,7 @@
     "num_qubits": 130,
     "depth": 774,
     "treewidth": 128,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -42094,6 +42095,7 @@
     "num_qubits": 20,
     "depth": 114,
     "treewidth": 18,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -43086,6 +43088,7 @@
     "num_qubits": 30,
     "depth": 3,
     "treewidth": 29,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -43314,6 +43317,7 @@
     "num_qubits": 130,
     "depth": 132,
     "treewidth": 129,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -44752,6 +44756,7 @@
     "num_qubits": 15,
     "depth": 17,
     "treewidth": 14,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -44925,6 +44930,7 @@
     "num_qubits": 30,
     "depth": 32,
     "treewidth": 29,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -45262,6 +45268,7 @@
     "num_qubits": 100,
     "depth": 101,
     "treewidth": 99,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -46374,6 +46381,7 @@
     "num_qubits": 130,
     "depth": 131,
     "treewidth": 129,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -47816,6 +47824,7 @@
     "num_qubits": 15,
     "depth": 16,
     "treewidth": 14,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -47993,6 +48002,7 @@
     "num_qubits": 30,
     "depth": 31,
     "treewidth": 29,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -48335,6 +48345,7 @@
     "num_qubits": 15,
     "depth": 10,
     "treewidth": 14,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -48517,6 +48528,7 @@
     "num_qubits": 14,
     "depth": 43,
     "treewidth": 13,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -49077,6 +49089,7 @@
     "num_qubits": 11,
     "depth": 76677,
     "treewidth": 9,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -49389,6 +49402,7 @@
     "num_qubits": 7,
     "depth": 1124,
     "treewidth": 5,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -49529,6 +49543,7 @@
     "num_qubits": 17,
     "depth": 51528,
     "treewidth": 11,
+    "max_gate_arity": 3,
     "interaction_graph": {
       "nodes": [
         0,
@@ -50009,6 +50024,7 @@
     "num_qubits": 7,
     "depth": 271,
     "treewidth": 5,
+    "max_gate_arity": 3,
     "interaction_graph": {
       "nodes": [
         0,
@@ -50145,6 +50161,7 @@
     "num_qubits": 10,
     "depth": 43,
     "treewidth": 9,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -50449,6 +50466,7 @@
     "num_qubits": 17,
     "depth": 71,
     "treewidth": 16,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -51248,6 +51266,7 @@
     "num_qubits": 10,
     "depth": 42,
     "treewidth": 9,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -51550,6 +51569,7 @@
     "num_qubits": 18,
     "depth": 74,
     "treewidth": 17,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -52445,6 +52465,7 @@
     "num_qubits": 17,
     "depth": 610,
     "treewidth": 16,
+    "max_gate_arity": 3,
     "interaction_graph": {
       "nodes": [
         0,
@@ -52890,6 +52911,7 @@
     "num_qubits": 16,
     "depth": 11,
     "treewidth": 15,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -53085,6 +53107,7 @@
     "num_qubits": 15,
     "depth": 33,
     "treewidth": 14,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -53719,6 +53742,7 @@
     "num_qubits": 30,
     "depth": 63,
     "treewidth": 29,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -56092,6 +56116,7 @@
     "num_qubits": 130,
     "depth": 261,
     "treewidth": 129,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -98815,6 +98840,7 @@
     "num_qubits": 15,
     "depth": 31,
     "treewidth": 14,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -99448,6 +99474,7 @@
     "num_qubits": 30,
     "depth": 61,
     "treewidth": 29,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -101822,6 +101849,7 @@
     "num_qubits": 20,
     "depth": 195,
     "treewidth": 19,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -102911,6 +102939,7 @@
     "num_qubits": 100,
     "depth": 299,
     "treewidth": 98,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -127780,6 +127809,7 @@
     "num_qubits": 30,
     "depth": 87,
     "treewidth": 28,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -130008,6 +130038,7 @@
     "num_qubits": 18,
     "depth": 6214,
     "treewidth": 7,
+    "max_gate_arity": 3,
     "interaction_graph": {
       "nodes": [
         0,
@@ -130273,6 +130304,7 @@
     "num_qubits": 30,
     "depth": 122,
     "treewidth": 29,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -132645,6 +132677,7 @@
     "num_qubits": 16,
     "depth": 21,
     "treewidth": 15,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -132835,6 +132868,7 @@
     "num_qubits": 130,
     "depth": 261,
     "treewidth": 129,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -134279,6 +134313,7 @@
     "num_qubits": 15,
     "depth": 31,
     "treewidth": 14,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,
@@ -134458,6 +134493,7 @@
     "num_qubits": 30,
     "depth": 61,
     "treewidth": 29,
+    "max_gate_arity": 2,
     "interaction_graph": {
       "nodes": [
         0,

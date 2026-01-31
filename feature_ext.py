@@ -10,7 +10,10 @@
 #    - Low treewidth (1-2): Circuit connectivity is simple, like a tree
 #    - High treewidth: Circuit has complex connectivity, like a dense mesh
 #    - Important for: Simulation complexity, optimization potential, hardware mapping
-# 5. Interaction graph: Graph showing which qubits interact with each other
+# 5. Max gate arity: Maximum number of qubits a single gate operates on
+#    - Low arity (1-2): Simple single and two-qubit gates
+#    - High arity: Complex multi-qubit gates, harder to implement on hardware
+# 6. Interaction graph: Graph showing which qubits interact with each other
 #    - Nodes: Qubits
 #    - Edges: Multi-qubit gates connecting qubits
 #    - Edge weights: Number of interactions between qubit pairs
@@ -76,6 +79,7 @@ for fname in os.listdir(circuit_path):
     gates = defaultdict(int)  # Count each gate type
     edges = defaultdict(int)   # Count qubit interactions
     max_index = -1             # Track highest qubit index
+    max_gate_arity = 1         # Track maximum number of qubits per gate
 
     with open(full_path, 'r') as f:
         circuit = f.read()
@@ -101,6 +105,10 @@ for fname in os.listdir(circuit_path):
         indices = [int(idx) for (_, idx) in qubit_matches]
         if indices:
             max_index = max(max_index, max(indices))
+        
+        # Update max gate arity (number of qubits this gate operates on)
+        gate_arity = len(indices)
+        max_gate_arity = max(max_gate_arity, gate_arity)
         
         # Build interaction graph: count qubit pairs that appear together
         if len(indices) >= 2:
@@ -156,6 +164,7 @@ for fname in os.listdir(circuit_path):
         'num_qubits': computed_n_qubits,
         'depth': circuit_depth,
         'treewidth': treewidth,
+        'max_gate_arity': max_gate_arity,
         'interaction_graph': {
             'nodes': nodes,
             'edges': edges_list  # each edge: [qubit_a, qubit_b, weight]
