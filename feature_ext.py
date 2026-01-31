@@ -13,7 +13,17 @@
 # 5. Max gate arity: Maximum number of qubits a single gate operates on
 #    - Low arity (1-2): Simple single and two-qubit gates
 #    - High arity: Complex multi-qubit gates, harder to implement on hardware
-# 6. Interaction graph: Graph showing which qubits interact with each other
+# 6. Two-qubit gate density: Ratio of two-qubit gates to total gates
+#    - Low density: Mostly single-qubit operations, less entanglement
+#    - High density: Many two-qubit operations, more entanglement, harder to simulate
+# 7. T-gate count: Number of T gates (non-Clifford, expensive to implement)
+#    - Important for: Magic state distillation overhead, fault-tolerance cost
+# 8. S-gate count: Number of S gates (Clifford phase gates)
+#    - Important for: Circuit optimization, gate decomposition
+# 9. Clifford gate count: Number of Clifford gates (efficient to implement)
+#    - Includes: H, S, SDG, X, Y, Z, CX, CZ, SWAP, and their controlled variants
+#    - Important for: Fault-tolerant quantum computing, error correction
+# 10. Interaction graph: Graph showing which qubits interact with each other
 #    - Nodes: Qubits
 #    - Edges: Multi-qubit gates connecting qubits
 #    - Edge weights: Number of interactions between qubit pairs
@@ -148,8 +158,7 @@ for fname in os.listdir(circuit_path):
         # Lower treewidth = more tree-like, easier to simulate/optimize
         # Higher treewidth = more complex connectivity, harder to simulate
         treewidth_decomp = nx.algorithms.approximation.treewidth_min_degree(G)
-        treewidth = treewidth_decomp[0]  # Extract treewidth value
-        print(treewidth)  # Debug output
+        treewidth = treewidth_decomp[0] 
     except Exception as e:
         print(f"Error calculating treewidth for {fname}: {e}")
         treewidth = None
@@ -158,6 +167,21 @@ for fname in os.listdir(circuit_path):
     G.clear()
     del G
 
+    # Calculate two-qubit gate density
+    total_gates = sum(gates.values())
+    two_qubit_gates = sum(count for gate, count in gates.items() 
+                        if any(gate.startswith(prefix) for prefix in ['cx', 'cz', 'ch', 'swap', 'cp', 'cu1', 'cu2', 'cu3', 'rxx', 'ryy', 'rzz', 'rzx']))
+    
+    two_qubit_density = two_qubit_gates / total_gates if total_gates > 0 else 0.0
+
+    # Count specific important gates
+    t_gate_count = gates.get('t', 0) + gates.get('tdg', 0)  # T and T-dagger gates
+    s_gate_count = gates.get('s', 0) + gates.get('sdg', 0)  # S and S-dagger gates
+    
+    # Count Clifford gates (efficient to implement in fault-tolerant systems)
+    clifford_gates = ['h', 'x', 'y', 'z', 's', 'sdg', 'cx', 'cz', 'swap', 'ch', 'cy', 'cz']
+    clifford_gate_count = sum(gates.get(gate, 0) for gate in clifford_gates)
+
     circuit_data = {
         'gates': dict(gates),
         'family': circuit_info.get(fname, {}).get('family', 'Unknown'),
@@ -165,10 +189,10 @@ for fname in os.listdir(circuit_path):
         'depth': circuit_depth,
         'treewidth': treewidth,
         'max_gate_arity': max_gate_arity,
-        'interaction_graph': {
-            'nodes': nodes,
-            'edges': edges_list  # each edge: [qubit_a, qubit_b, weight]
-        }
+        'two_qubit_gate_density': two_qubit_density,
+        't_gate_count': t_gate_count,
+        's_gate_count': s_gate_count,
+        'clifford_gate_count': clifford_gate_count
     }
     circuit_details[fname] = circuit_data
 
