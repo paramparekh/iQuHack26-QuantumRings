@@ -27,7 +27,7 @@ We extracted a comprehensive set of features to capture the structural complexit
 
 ### Layout & Interaction
 *   **`avg_2q_dist`**: Average linear distance between interacting qubits.
-    $\text{avg\_dist} = \frac{1}{N_{2q}} \sum_{(u,v) \in \text{gates}} |u - v|$
+    $D_{avg} = \frac{1}{N_{2q}} \sum_{(u,v) \in \text{gates}} |u - v|$
     Higher values imply non-local interactions, which generally increase entanglement spread.
 
 ### Impact on Entanglement
