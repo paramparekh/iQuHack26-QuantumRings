@@ -1,0 +1,45 @@
+Loading data...
+Loading pre-computed features...
+Reading circuits from /Users/haber/QuantumRings'26/iQuHack26/circuits...
+Saving 36 feature sets to /Users/haber/QuantumRings'26/iQuHack26/circuit_features.json
+Loaded 144 result rows and 36 feature sets.
+Extracting features and targets...
+Processed dataframe shape: (144, 38)
+Train samples: 112 (from 28 circuits)
+Validation samples: 32 (from 8 circuits)
+Features used (35): ['n_qubits', 'n_gates', 'depth', 'n_2q', 'entanglement_density', 'treewidth', 'max_gate_arity', 'two_qubit_gate_density', 't_gate_count', 's_gate_count', 'clifford_gate_count', 'q_depth', 'q_gates', 'backend_cpu', 'precision_single', 'n_u2', 'n_u3', 'n_cx', 'n_u', 'n_h', 'n_cp', 'n_measure', 'n_cz', 'n_x', 'n_cu1', 'n_rccx', 'n_u1', 'n_ccx', 'n_rzz', 'n_rx', 'n_ry', 'n_cry', 'n_swap', 'n_p', 'n_cswap']
+
+--- Model Benchmark Results ---
+Model      | Type       | Metric     | Score     
+--------------------------------------------------
+rf         | Thresh     | Accuracy   | 0.3750
+gb         | Thresh     | Accuracy   | 0.5312
+xgb        | Thresh     | Accuracy   | 0.5000
+svm        | Thresh     | Accuracy   | 0.3750
+lr         | Thresh     | Accuracy   | 0.3750
+rf         | Runtime    | MAE (s)    | 214.0788
+gb         | Runtime    | MAE (s)    | 196.7272
+xgb        | Runtime    | MAE (s)    | 99.3263
+svm        | Runtime    | MAE (s)    | 102.1546
+lr         | Runtime    | MAE (s)    | 1278478.8230
+gpr        | Runtime    | MAE (s)    | 92.8552
+--------------------------------------------------
+Best Threshold Model: GradientBoostingClassifier (Acc: 0.5312)
+Best Runtime Model:   Pipeline (MAE: 92.8552)
+
+Saving all models...
+Done.
+
+--- Feature Importance Analysis ---
+
+Top 10 Features for Threshold Model (GradientBoostingClassifier):
+n_h                            | 0.2070
+entanglement_density           | 0.1605
+clifford_gate_count            | 0.1003
+n_u2                           | 0.0874
+n_cx                           | 0.0700
+q_gates                        | 0.0596
+n_cz                           | 0.0499
+depth                          | 0.0262
+n_u                            | 0.0259
+n_x                            | 0.0223

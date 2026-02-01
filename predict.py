@@ -21,6 +21,7 @@ def main():
     model_dir = script_dir / 'models'
     
     rf_thresh = joblib.load(model_dir / 'rf_threshold.joblib')
+    is_xgb = 'XGBClassifier' in str(type(rf_thresh))
     rf_time = joblib.load(model_dir / 'rf_runtime.joblib')
     feature_cols = joblib.load(model_dir / 'feature_cols.joblib')
     
@@ -110,8 +111,13 @@ def main():
         row['q_depth'] = row['n_qubits'] * row['depth']
         row['q_gates'] = row['n_qubits'] * row['n_gates']
 
-        row['backend_cpu'] = 1 
-        row['precision_single'] = 1 
+        # Read Hardware/Precision from task
+        # Keys might be 'processor'/'backend' or 'precision'
+        proc = task.get('processor') or task.get('backend') or 'CPU'
+        prec = task.get('precision', 'single')
+        
+        row['backend_cpu'] = 1 if str(proc).upper() == 'CPU' else 0
+        row['precision_single'] = 1 if str(prec).lower() == 'single' else 0 
         
         for g_name, count in gates.items():
             row[f'n_{g_name}'] = count
@@ -148,7 +154,7 @@ def main():
     for i, t_id in enumerate(task_ids):
         p_raw = pred_thresh_raw[i]
         
-        if le:
+        if le and is_xgb:
             # Decode label
             # XGBoost/LabelEncoder outputs 0..N-1, we need 1, 2, 4...
             # inverse_transform expects array-like

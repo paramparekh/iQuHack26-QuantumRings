@@ -9,6 +9,14 @@ from sklearn.metrics import accuracy_score, mean_absolute_error
 from sklearn.preprocessing import LabelEncoder
 from xgboost import XGBClassifier, XGBRegressor
 
+# --- Model Benchmarking ---
+from sklearn.svm import SVC, SVR
+from sklearn.linear_model import LogisticRegression, LinearRegression
+from sklearn.gaussian_process import GaussianProcessRegressor
+from sklearn.gaussian_process.kernels import RBF, WhiteKernel, ConstantKernel
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+
 # --- Configuration ---
 DATA_PATH = Path('data/hackathon_public.json')
 FEATURES_PATH = Path('circuit_features.json')
@@ -22,7 +30,8 @@ with open(DATA_PATH, 'r') as f:
 
 print("Loading pre-computed features...")
 if not FEATURES_PATH.exists():
-    raise FileNotFoundError(f"Features file {FEATURES_PATH} not found. Run ensure_features.py first.")
+    import feature_ext
+    feature_ext.main()
 
 with open(FEATURES_PATH, 'r') as f:
     feature_map = json.load(f)
@@ -37,7 +46,8 @@ def get_row_data(row):
     threshold_sweep = sorted(row['threshold_sweep'], key=lambda x: x['threshold'])
     for run in threshold_sweep:
         fid = run.get('sdk_get_fidelity')
-        if fid is not None and fid >= 0.99:
+        # FIDELITY 0.75 RULE
+        if fid is not None and fid >= 0.75:
             true_threshold = run['threshold']
             break
     
@@ -135,14 +145,8 @@ X_val = df.loc[val_mask, feature_cols]
 y_val_thresh = df.loc[val_mask, target_thresh]
 y_val_time = df.loc[val_mask, target_time]
 
-# --- Model Benchmarking ---
-
-results = []
-
-from sklearn.svm import SVC, SVR
-from sklearn.linear_model import LogisticRegression, LinearRegression
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
+# Define models dynamically after we know input shape
+n_features = X_train.shape[1]
 
 models_thresh = {
     'rf': RandomForestClassifier(n_estimators=200, random_state=42),
@@ -152,12 +156,16 @@ models_thresh = {
     'lr': Pipeline([('scaler', StandardScaler()), ('clf', LogisticRegression(random_state=42, max_iter=1000))])
 }
 
+# ARD Kernel: Constant * RBF(length_scale_vector) + Noise
+kernel = ConstantKernel() * RBF(length_scale=np.ones(n_features), length_scale_bounds=(1e-2, 1e4)) + WhiteKernel(noise_level=1, noise_level_bounds=(1e-4, 1e2))
+
 models_time = {
     'rf': RandomForestRegressor(n_estimators=200, random_state=42),
     'gb': GradientBoostingRegressor(n_estimators=200, random_state=42),
     'xgb': XGBRegressor(n_estimators=200, objective='reg:absoluteerror', random_state=42),
     'svm': Pipeline([('scaler', StandardScaler()), ('reg', SVR())]),
-    'lr': Pipeline([('scaler', StandardScaler()), ('reg', LinearRegression())])
+    'lr': Pipeline([('scaler', StandardScaler()), ('reg', LinearRegression())]),
+    'gpr': Pipeline([('scaler', StandardScaler()), ('gpr', GaussianProcessRegressor(kernel=kernel, n_restarts_optimizer=5, random_state=42))])
 }
 
 best_thresh_model = None
@@ -169,17 +177,27 @@ print("\n--- Model Benchmark Results ---")
 print(f"{'Model':<10} | {'Type':<10} | {'Metric':<10} | {'Score':<10}")
 print("-" * 50)
 
-# Encode labels for XGBoost
+# Encode labels for XGBoost fit-only
 le = LabelEncoder()
-y_all_thresh = pd.concat([y_train_thresh, y_val_thresh])
-le.fit(y_all_thresh)
+le.fit(y_train_thresh)
 y_train_thresh_enc = le.transform(y_train_thresh)
-y_val_thresh_enc = le.transform(y_val_thresh)
+
+# Handle unseen labels in validation
+y_val_thresh_enc = []
+for label in y_val_thresh:
+    if label in le.classes_:
+        y_val_thresh_enc.append(le.transform([label])[0])
+    else:
+        y_val_thresh_enc.append(0)
+y_val_thresh_enc = np.array(y_val_thresh_enc)
 
 for name, model in models_thresh.items():
     if name == 'xgb':
         model.fit(X_train, y_train_thresh_enc)
         y_pred_enc = model.predict(X_val)
+        # We can't inverse transform simply if X_val had unseen labels? 
+        # But for score we check against y_val_thresh.
+        # XGB predicts 0..N-1.
         y_pred = le.inverse_transform(y_pred_enc)
     else:
         model.fit(X_train, y_train_thresh)
@@ -210,18 +228,23 @@ print("-" * 50)
 print(f"Best Threshold Model: {best_thresh_model.__class__.__name__} (Acc: {best_thresh_acc:.4f})")
 print(f"Best Runtime Model:   {best_time_model.__class__.__name__} (MAE: {best_time_mae:.4f})")
 
-# --- Save Best Models ---
-print("\nSaving best models...")
-joblib.dump(best_thresh_model, MODELS_DIR / 'rf_threshold.joblib') # Keeping filename same for compatibility
-joblib.dump(best_time_model, MODELS_DIR / 'rf_runtime.joblib')     # Keeping filename same for compatibility
+# --- Save All Models ---
+print("\nSaving all models...")
+
+# Threshold Models
+for name, model in models_thresh.items():
+    joblib.dump(model, MODELS_DIR / f'{name}_threshold.joblib')
+
+# Runtime Models
+for name, model in models_time.items():
+    joblib.dump(model, MODELS_DIR / f'{name}_runtime.joblib')
+
+# Save Best (Standard Names for Predict.py default usage)
+joblib.dump(best_thresh_model, MODELS_DIR / 'rf_threshold.joblib')
+joblib.dump(best_time_model, MODELS_DIR / 'rf_runtime.joblib')
+
 joblib.dump(feature_cols, MODELS_DIR / 'feature_cols.joblib')
-if best_thresh_model.__class__.__name__ == 'XGBClassifier':
-    joblib.dump(le, MODELS_DIR / 'label_encoder.joblib')
-else:
-    # If using RF, we might not need it, but good to clean up if exists
-    le_path = MODELS_DIR / 'label_encoder.joblib'
-    if le_path.exists():
-        le_path.unlink()
+joblib.dump(le, MODELS_DIR / 'label_encoder.joblib')
 print("Done.")
 
 # --- Feature Importance Analysis ---
