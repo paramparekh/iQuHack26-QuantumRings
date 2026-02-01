@@ -1,14 +1,19 @@
-LATEST RUN (With Threshold-Aware Runtime Training):
-Threshold: Random Forest (62.50%) - Consistent.
-Runtime:   Gradient Boosting (55.54s MAE) - HUGE IMPROVEMENT!
-           Random Forest (58.11s MAE)
-           XGBoost (60.72s MAE)
+LATEST RUN (Strict 75/25 Validation Split):
+--------------------------------------------------
+1. Threshold Model (Random Forest Classifier)
+   Accuracy: 66.67% (Exact Match)
+   Status:   Consistent performance on unseen circuits.
 
---- Why the Improvement? ---
-We now use the 'Threshold' as an INPUT to the runtime model.
-The model learned that Lower Threshold = Faster Runtime.
-Previous models were blind to this and guessed the average (~90s error).
-Now we are precise (~55s error).
+2. Runtime Model (Random Forest Regressor)
+   MAE:      62.80s (Mean Absolute Error)
+   Accuracy: 84.3%  (Predictions within ±60s of truth)
+   Status:   High reliability for submission.
 
-Top Features (Threshold): avg_2q_dist, n_h, max_cutwidth
-Top Features (Runtime):   input_threshold (Dominant!), max_2q_dist, treewidth
+--- Key Insights ---
+*   Input Threshold Strategy: We feed the predicted threshold into the runtime model, which drastically improves accuracy (Models know "Low Threshold = Fast").
+*   Feature Engineering: 'avg_2q_dist' and 'max_cutwidth' added ~5s of improvement.
+*   Data Handling: Used strictly valid data (filtered out broken circuits) for maximum reliability.
+
+--- Top Features ---
+Threshold: avg_2q_dist, n_h, max_cutwidth
+Runtime:   input_threshold, max_2q_dist, treewidth
