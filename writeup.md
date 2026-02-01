@@ -20,7 +20,6 @@ We extracted a comprehensive set of features to capture the structural complexit
 *   **`two_qubit_gate_density`**: Ratio of 2-qubit gates (e.g., `cx`, `cz`) to total gates. Higher density implies more complex variable interactions.
 *   **`entanglement_density`**: Number of 2-qubit gates normalized by the number of qubits.
 *   **`clifford_gate_count`**: Count of gates belonging to the Clifford group (e.g., H, S, CX). These are computationally cheaper to simulate (stabilizer formalism).
-*   **`t_gate_count` & `s_gate_count`**: Counts of non-Clifford gates (specifically T/Tdag) which are traditionally expensive to simulate.
 
 ### Layout & Interaction
 *   **`avg_2q_dist`**: Average distance between qubits interacting in 2-qubit gates. Higher distance implies non-local interactions which can be harder for certain hardware topologies or simulator optimizations.
