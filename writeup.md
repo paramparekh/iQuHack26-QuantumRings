@@ -7,23 +7,31 @@
 *   **Hardware Awareness**: We treated CPU and GPU runs as distinct datapoints, allowing the model to learn hardware-specific runtime characteristics.
 
 ## 2. Feature Engineering
-We extracted a comprehensive set of features to capture the structural complexity and computational cost of the quantum circuits.
+We extracted a comprehensive set of features to capture the structural complexity and computational cost of the quantum circuits. The foundation of our structural analysis is the **Interaction Graph** $G=(V, E)$, where nodes $V$ represent qubits and edges $E$ represent two-qubit gates (e.g., CX, CZ).
 
-### Structural Features
-*   **`treewidth`**: Graph-theoretic measure of how "tree-like" the circuit's interaction graph is. Lower treewidth suggests easier contraction/simulation.
-*   **`max_cutwidth`**: Measures the maximum number of hyperedges (gates) crossing any point in a linear ordering of qubits. This proxies the "congestion" or memory overhead required for simulation.
-*   **`n_qubits`**: Total number of qubits used.
-*   **`depth`**: The longest path of dependent operations in the circuit (calculated via Qiskit).
-*   **`n_gates`**: Total number of quantum gates.
+### Structural Features & Formulas
+*   **`treewidth`**: A measure of how close the interaction graph is to a tree. Formally, it is the size of the largest bag in an optimal tree decomposition of $G$ minus 1. Low treewidth ($\sim 1$) implies efficient simulation via tensor network contraction.
+*   **`max_cutwidth`**: The maximum number of edges crossing any cut in the linear arrangement of qubits.
+    $$ \text{cutwidth} = \max_i | \{ (u,v) \in E : u \le i < v \} | $$
+    High cutwidth indicates high "congestion" and memory requirements for state-vector simulation.
+*   **`n_qubits`** ($N_{nodes}$): Total physical qubits.
+*   **`depth`**: Longest path of dependent operations in the circuit (calculated via Qiskit).
 
 ### Gate Composition & Density
-*   **`two_qubit_gate_density`**: Ratio of 2-qubit gates (e.g., `cx`, `cz`) to total gates. Higher density implies more complex variable interactions.
-*   **`entanglement_density`**: Number of 2-qubit gates normalized by the number of qubits.
-*   **`clifford_gate_count`**: Count of gates belonging to the Clifford group (e.g., H, S, CX). These are computationally cheaper to simulate (stabilizer formalism).
+*   **`two_qubit_gate_density`**: Fraction of gates that entangle qubits.
+    $$ \rho_{2q} = \frac{N_{2q}}{N_{total}} $$
+*   **`entanglement_density`**: Entangling power per qubit.
+    $$ \rho_{ent} = \frac{N_{2q}}{N_{qubits}} $$
+*   **`clifford_gate_count`**: Count of efficient Clifford gates (H, S, CX).
+*   **`t_gate_count` & `s_gate_count`**: Counts of non-Clifford gates (specifically T/Tdag) which are traditionally expensive to simulate.
 
 ### Layout & Interaction
-*   **`avg_2q_dist`**: Average distance between qubits interacting in 2-qubit gates. Higher distance implies non-local interactions which can be harder for certain hardware topologies or simulator optimizations.
-*   **`max_2q_dist`**: The maximum distance between interacting qubits.
+*   **`avg_2q_dist`**: Average linear distance between interacting qubits.
+    $$ \text{avg\_dist} = \frac{1}{N_{2q}} \sum_{(u,v) \in \text{gates}} |u - v| $$
+    Higher values imply non-local interactions, which generally increase entanglement spread.
+
+### Impact on Entanglement
+Features like **treewidth**, **cutwidth**, and **avg_2q_dist** are direct proxies for **entanglement entropy**. A circuit with high treewidth or long-range interactions can rapidly generate high-entanglement states that are exponentially hard to simulate (requiring larger bond dimensions in tensor networks), whereas local, low-width circuits remain computationally tractable.
 
 ## 3. Modeling
 We developed a two-stage pipeline to robustly predict runtime, leveraging the strong correlation between circuit "hardness" (valid execution threshold) and execution time.
