@@ -1,22 +1,52 @@
 # Circuit Fingerprint Challenge - Submission Write-up
 
 ## 1. Approach & Strategy
-*   **Data Utilization**: We utilized **100% of the provided public dataset** (144 valid runs across 36 circuits). Initial strict filtering was relaxed as the data proved to be high-quality.
-*   **Validation Strategy**: We employed a **75% / 25%** Train/Test split on unique circuits. This ensures our reported metrics reflect performance on truly unseen circuit structures.
-*   **Hardware Awareness**: We treated CPU and GPU runs as distinct datapoints, allowing the model to learn hardware-specific runtime characteristics.
+
+*   **Data Cleaning**: Strictly filtered "unused" circuits to ensure high-fidelity training data.
+*   **Validation**: Used a **75% / 25%** Train/Test split on unique circuits to validate generalization to unseen structures.
+*   **Hardware**: Distinct modeling for CPU vs. GPU to capture hardware-specific execution characteristics.
+
 
 ## 2. Feature Engineering
-We extracted a comprehensive set of features, with a specific focus on circuit complexity and qubit interaction layouts:
-*   **Long-Range Interactions**: `avg_2q_dist` and `max_2q_dist` (Average and Max distance between interacting qubits) were key features, improving prediction accuracy by ~5 seconds.
-*   **Cutwidth**: `max_cutwidth` was implemented to capture the "congestion" of the circuit.
-*   **Gate Densities**: Standard gate counts (`cx`, `cz`, `t`, `s`) and density metrics.
-*   **Structural**: `treewidth`, `depth`, `n_qubits`.
+We extracted structural and interaction features to proxy circuit complexity and simulation cost (based on the **Interaction Graph** $G=(V, E)$).
+
+### Feature Glossary
+We extracted the following features to capture the structural and computational properties of each circuit.
+
+*   **`treewidth`** ($tw(G) = \min \max |b| - 1$): Complexity of interaction tree decomposition.
+    **Impact**: Higher treewidth $\implies$ exponentially harder tensor contraction $\implies$ lower threshold.
+*   **`max_cutwidth`** ($cw = \max_i |\{(u,v) \in E : u \le i < v\}|$): Max edges crossing a linear partition.
+    **Impact**: Higher cutwidth $\implies$ higher memory congestion/bottleneck $\implies$ increased runtime.
+*   **`avg_2q_dist`** ($D_{avg} = \frac{1}{N_{2q}} \sum |u-v|$): Average distance of 2-qubit interactions.
+    **Impact**: Larger distance $\implies$ faster entanglement spread $\implies$ harder simulation.
+*   **`max_2q_dist`**: Maximum distance between interacting qubits.
+    **Impact**: Presence of global operations $\implies$ requires full-state updates.
+*   **`two_qubit_gate_density`** ($\rho_{2q} = N_{2q} / N_{total}$): Proportion of entangling gates.
+    **Impact**: Higher density $\implies$ faster entanglement growth $\implies$ lower threshold.
+*   **`entanglement_density`** ($\rho_{ent} = N_{2q} / N_{qubits}$): Entangling operations per qubit.
+    **Impact**: Higher intensity $\implies$ more complex state vector.
+*   **`clifford_gate_count`**: Count of stabilizer operations (H, S, CX).
+    **Impact**: More Clifford gates $\implies$ easier simulation (Gottesman-Knill) $\implies$ higher threshold.
+*   **`n_qubits`**: Total physical qubits.
+    **Impact**: More qubits $\implies$ larger state space $\implies$ exponential cost (for full state-vector).
+*   **`depth`**: Longest path of dependent operations.
+    **Impact**: Greater depth $\implies$ more time for entanglement to accumulate.
+*   **`n_gates`**: Total gate count.
+    **Impact**: Linearly increases simulation time (assuming constant entanglement).
 
 ## 3. Modeling
-We benchmarked Gradient Boosting, Random Forest, XGBoost, and SVM.
-*   **Threshold Prediction**: **Random Forest Classifier**. Achieved **66.67% Accuracy** (Exact Match) on validation set.
-*   **Runtime Prediction**: **Random Forest Regressor**. Achieved **~63s MAE** and **84% Accuracy** (predictions within 60s of truth). We designed a chained pipeline where the *predicted threshold* is fed as an input feature to the runtime model, significantly improving runtime estimation.
+We implemented a two-stage chained pipeline: **Circuit Hardness (Threshold) $\to$ Execution Time**.
 
-## 4. Known Limitations
-*   The model handles the provided 2-qubit gates well but may generalize less effectively to arbitrary custom gates not seen in training.
-*   Runtime prediction varies significantly between CPU and GPU; while our model accounts for this, extreme outliers in cloud queue times (if any) are difficult to predict.
+### Methodology
+1.  **Threshold (RF Classifier)**: Predicts minimum successful threshold (proxy for difficulty).
+2.  **Runtime (RF Regressor)**: Predicts `log(runtime)`.
+    *   **Chained Input**: The *predicted threshold* from Stage 1 is an input to Stage 2, improving MAE by ~5s.
+
+### Performance (Validation Set)
+*   **Threshold Accuracy**: **66.67%** (Exact Match)
+*   **Runtime MAE**: **~63s**
+*   **Runtime Accuracy**: **84%** (within tolerance)
+
+## 4. Limitations
+*   **Generalization**: Performance on arbitrary custom gates not seen in training is unverified.
+*   **Cloud Variance**: Minimum correlation with extreme cloud queue outliers.
