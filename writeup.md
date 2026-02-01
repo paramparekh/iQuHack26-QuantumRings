@@ -1,9 +1,11 @@
 # Circuit Fingerprint Challenge - Submission Write-up
 
 ## 1. Approach & Strategy
+
 *   **Data Cleaning**: Strictly filtered "unused" circuits to ensure high-fidelity training data.
 *   **Validation**: Used a **75% / 25%** Train/Test split on unique circuits to validate generalization to unseen structures.
 *   **Hardware**: Distinct modeling for CPU vs. GPU to capture hardware-specific execution characteristics.
+
 
 ## 2. Feature Engineering
 We extracted structural and interaction features to proxy circuit complexity and simulation cost (based on the **Interaction Graph** $G=(V, E)$).

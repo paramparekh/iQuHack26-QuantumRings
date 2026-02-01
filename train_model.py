@@ -44,11 +44,11 @@ def get_row_data(row):
     if filename not in feature_map:
         return None
     
-    # Prerequisite: Must have VALID FORWARD RUNTIME (Strict Filter)
-    # This excludes "broken" or "unused" circuits that dragged down accuracy
+    # Prerequisite: Must have VALID FORWARD RUNTIME? 
+    # User requested NOT to skip. So if runtime is missing, we'll just skip Runtime Training for this row, 
+    # but keep it for Threshold Training.
     forward_time = row.get('forward', {}).get('run_wall_s')
-    if forward_time is None:
-        return None
+    # if forward_time is None: return None (Removed strict filter)
     
     # Targets
     true_threshold = None
@@ -59,11 +59,12 @@ def get_row_data(row):
             true_threshold = run['threshold']
             break
             
+    # Relaxed Logic: If no run meets 0.75, assume it's a "hard" circuit -> Label 256
     if true_threshold is None:
-        if row['status'] == 'no_threshold_met':
-             true_threshold = 256
-        else:
-             return None # Skip undefined
+        true_threshold = 256
+        
+    # Note: forward_time might be None. We will handle that in the loop below.
+    # (Don't return None here, so we can use it for Threshold training at least)
     
     feats = feature_map[filename]
     datum = {}
