@@ -1,0 +1,129 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Runtime Model Performance</title>
+        <style>
+            body { font-family: sans-serif; padding: 20px; background: #f0f2f5; }
+            .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+            h1 { color: #1a1a1a; }
+            .score { font-size: 48px; font-weight: bold; color: #2ecc71; }
+            .metric { font-size: 18px; color: #666; }
+            table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+            th, td { text-align: left; padding: 12px; border-bottom: 1px solid #ddd; }
+            th { background-color: #f8f9fa; }
+            .bad { color: #e74c3c; }
+            .good { color: #2ecc71; }
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <h1>Model Performance Report</h1>
+            <div>
+                <span class="metric">Overall Accuracy Score:</span><br>
+                <span class="score">68.4%</span>
+            </div>
+            <p>
+                <b>Mean Absolute Error (MAE):</b> 17.74 seconds<br>
+                (On average, our prediction is within 18 seconds of the true time)
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>🎯 Best Predictions</h2>
+            <table>
+                <tr><th>Circuit</th><th>Threshold</th><th>True Time</th><th>Predicted</th><th>Error</th></tr>
+                
+        <tr>
+            <td>portfolioqaoa_indep_qiskit_17.qasm</td>
+            <td>8</td>
+            <td>0.91s</td>
+            <td>0.91s</td>
+            <td class="good">0.00s</td>
+        </tr>
+        
+        <tr>
+            <td>wstate_indep_qiskit_15.qasm</td>
+            <td>1</td>
+            <td>0.24s</td>
+            <td>0.24s</td>
+            <td class="good">0.00s</td>
+        </tr>
+        
+        <tr>
+            <td>portfoliovqe_indep_qiskit_10.qasm</td>
+            <td>2</td>
+            <td>0.21s</td>
+            <td>0.21s</td>
+            <td class="good">0.00s</td>
+        </tr>
+        
+        <tr>
+            <td>wstate_indep_qiskit_30.qasm</td>
+            <td>1</td>
+            <td>0.24s</td>
+            <td>0.24s</td>
+            <td class="good">0.00s</td>
+        </tr>
+        
+        <tr>
+            <td>groundstate_large_indep_qiskit_14.qasm</td>
+            <td>2</td>
+            <td>0.25s</td>
+            <td>0.25s</td>
+            <td class="good">0.00s</td>
+        </tr>
+        
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>⚠️ Outliers (Worst Predictions)</h2>
+            <table>
+                <tr><th>Circuit</th><th>Threshold</th><th>True Time</th><th>Predicted</th><th>Error</th></tr>
+                
+        <tr>
+            <td>ae_indep_qiskit_130.qasm</td>
+            <td>32</td>
+            <td>2511.10s</td>
+            <td>2811.62s</td>
+            <td class="bad">300.52s</td>
+        </tr>
+        
+        <tr>
+            <td>twolocalrandom_indep_qiskit_30.qasm</td>
+            <td>64</td>
+            <td>499.49s</td>
+            <td>63.81s</td>
+            <td class="bad">435.68s</td>
+        </tr>
+        
+        <tr>
+            <td>twolocalrandom_indep_qiskit_30.qasm</td>
+            <td>64</td>
+            <td>700.76s</td>
+            <td>11.23s</td>
+            <td class="bad">689.54s</td>
+        </tr>
+        
+        <tr>
+            <td>twolocalrandom_indep_qiskit_30.qasm</td>
+            <td>256</td>
+            <td>853.15s</td>
+            <td>54.25s</td>
+            <td class="bad">798.90s</td>
+        </tr>
+        
+        <tr>
+            <td>twolocalrandom_indep_qiskit_30.qasm</td>
+            <td>64</td>
+            <td>830.60s</td>
+            <td>18.89s</td>
+            <td class="bad">811.71s</td>
+        </tr>
+        
+            </table>
+        </div>
+    </body>
+    </html>
+    

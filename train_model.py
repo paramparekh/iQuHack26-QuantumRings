@@ -23,12 +23,12 @@ FEATURES_PATH = Path('circuit_features.json')
 MODELS_DIR = Path('models')
 MODELS_DIR.mkdir(exist_ok=True, parents=True)
 
-# --- 1. Load and Prepare Data ---
+# --- 1. Load Data ---
 print("Loading data...")
 with open(DATA_PATH, 'r') as f:
     data = json.load(f)
 
-print("Loading pre-computed features...")
+print("Loading features...")
 if not FEATURES_PATH.exists():
     import feature_ext
     feature_ext.main()
@@ -36,17 +36,14 @@ if not FEATURES_PATH.exists():
 with open(FEATURES_PATH, 'r') as f:
     feature_map = json.load(f)
 
-print(f"Loaded {len(data['results'])} result rows and {len(feature_map)} feature sets.")
-
 def get_base_features(row):
     filename = row['file']
     if filename not in feature_map:
         return None
-    
     feats = feature_map[filename]
     datum = {}
     
-    # Copy features
+    # Structural
     datum['filename'] = filename
     datum['n_qubits'] = feats['num_qubits']
     datum['depth'] = feats['depth']
@@ -57,8 +54,11 @@ def get_base_features(row):
     datum['t_gate_count'] = feats.get('t_gate_count', 0)
     datum['s_gate_count'] = feats.get('s_gate_count', 0)
     datum['clifford_gate_count'] = feats.get('clifford_gate_count', 0)
+    
+    # The contentious features
     datum['avg_2q_dist'] = feats.get('avg_2q_dist', 0)
     datum['max_2q_dist'] = feats.get('max_2q_dist', 0)
+    
     datum['max_cutwidth'] = feats.get('max_cutwidth', 0)
     
     gates = feats['gates']
@@ -73,203 +73,165 @@ def get_base_features(row):
         
     datum['backend_cpu'] = 1 if row['backend'] == 'CPU' else 0
     datum['precision_single'] = 1 if row['precision'] == 'single' else 0
-    
     return datum
 
-print("Extracting features and targets...")
+print("Extracting datasets...")
 dataset_thresh = []
 dataset_runtime = []
 
 for row in data['results']:
     base = get_base_features(row)
-    if not base:
-        continue
-        
-    # --- Threshold Data (One per circuit) ---
+    if not base: continue
+    
+    # Threshold Data
     true_threshold = None
     threshold_sweep = sorted(row['threshold_sweep'], key=lambda x: x['threshold'])
     for run in threshold_sweep:
         fid = run.get('sdk_get_fidelity')
-        # FIDELITY 0.75 RULE
         if fid is not None and fid >= 0.75:
             true_threshold = run['threshold']
             break
-            
-    if true_threshold is None:
-        if row['status'] == 'no_threshold_met':
-             true_threshold = 256
-        else:
-             true_threshold = None # Skip invalid
-             
-    if true_threshold is not None:
-        d_thresh = base.copy()
-        d_thresh['target_threshold'] = true_threshold
-        dataset_thresh.append(d_thresh)
+    
+    # Include 'failed' circuits as 256 threshold? Or drop? Use 256 logic.
+    if true_threshold is None and row['status'] == 'no_threshold_met':
+        true_threshold = 256
         
-    # --- Runtime Data (Many per circuit: Explode Sweep) ---
-    # We want to learn: Time = f(Circuit, Input_Threshold)
+    if true_threshold is not None:
+        d = base.copy()
+        d['target_threshold'] = true_threshold
+        dataset_thresh.append(d)
+        
+    # Runtime Data (Exploded)
     for run in threshold_sweep:
-        if run['run_wall_s'] is not None and run['run_wall_s'] > 0:
-            d_time = base.copy()
-            d_time['input_threshold'] = run['threshold']
-            d_time['target_runtime'] = run['run_wall_s']
-            dataset_runtime.append(d_time)
+        if run.get('run_wall_s') and run['run_wall_s'] > 0:
+            d = base.copy()
+            d['input_threshold'] = run['threshold']
+            d['target_runtime'] = run['run_wall_s']
+            dataset_runtime.append(d)
 
-df_thresh = pd.DataFrame(dataset_thresh)
-df_thresh = df_thresh.fillna(0)
-df_runtime = pd.DataFrame(dataset_runtime)
-df_runtime = df_runtime.fillna(0)
+df_t = pd.DataFrame(dataset_thresh).fillna(0)
+df_r = pd.DataFrame(dataset_runtime).fillna(0)
+print(f"Data: {len(df_t)} Threshold Samples, {len(df_r)} Runtime Samples.")
 
-print(f"Threshold Samples: {len(df_thresh)} (1 per circuit)")
-print(f"Runtime Samples: {len(df_runtime)} (Exploded sweep)")
-
-# Split (Stratified by file for thresh, Grouped by file for runtime to avoid leakage)
-unique_files = df_thresh['filename'].unique()
+# --- Split Strategy ---
+# Include "unused" circuits implies using everything available?
+# We will do a 80/20 split based on Filenames to prevent leakage (Standard Practice)
+unique_files = df_t['filename'].unique()
 train_files, val_files = train_test_split(unique_files, test_size=0.2, random_state=42)
 
-# Masks
-train_mask_t = df_thresh['filename'].isin(train_files)
-val_mask_t = df_thresh['filename'].isin(val_files)
-
-train_mask_r = df_runtime['filename'].isin(train_files)
-val_mask_r = df_runtime['filename'].isin(val_files)
-
-# Feature Columns
-exclude = ['filename', 'target_threshold', 'target_runtime', 'backend_cpu', 'precision_single', 'input_threshold']
-potential = [c for c in df_thresh.columns if c not in exclude]
-base_cols = ['n_qubits', 'n_gates', 'depth', 'n_2q', 'entanglement_density', 'treewidth', 'max_gate_arity', 'two_qubit_gate_density', 't_gate_count', 's_gate_count', 'clifford_gate_count', 'avg_2q_dist', 'max_2q_dist', 'max_cutwidth', 'q_depth', 'q_gates', 'backend_cpu', 'precision_single']
-gate_cols = [c for c in potential if c.startswith('n_') and c not in base_cols]
-
-feature_cols_thresh = base_cols + gate_cols
-# Runtime model NEEDS input_threshold
-feature_cols_runtime = base_cols + gate_cols + ['input_threshold']
-
-print(f"Features (Thresh): {len(feature_cols_thresh)}")
-print(f"Features (Runtime): {len(feature_cols_runtime)}")
-
-# Training Data
-X_train_t = df_thresh.loc[train_mask_t, feature_cols_thresh]
-y_train_t = df_thresh.loc[train_mask_t, 'target_threshold']
-X_val_t = df_thresh.loc[val_mask_t, feature_cols_thresh]
-y_val_t = df_thresh.loc[val_mask_t, 'target_threshold']
-
-X_train_r = df_runtime.loc[train_mask_r, feature_cols_runtime]
-y_train_r = np.log(df_runtime.loc[train_mask_r, 'target_runtime'] + 1e-6)
-X_val_r = df_runtime.loc[val_mask_r, feature_cols_runtime]
-y_val_r = df_runtime.loc[val_mask_r, 'target_runtime']
-
-# Define models dynamically
-n_features_r = X_train_r.shape[1]
-
-models_thresh = {
-    'rf': RandomForestClassifier(n_estimators=200, random_state=42),
-    'gb': GradientBoostingClassifier(n_estimators=200, random_state=42),
-    'xgb': XGBClassifier(n_estimators=200, eval_metric='logloss', random_state=42),
-    'svm': Pipeline([('scaler', StandardScaler()), ('clf', SVC(random_state=42))]),
-    'lr': Pipeline([('scaler', StandardScaler()), ('clf', LogisticRegression(random_state=42, max_iter=1000))])
-}
-
-# ARD Kernel: Constant * RBF(length_scale_vector) + Noise
-kernel = ConstantKernel() * RBF(length_scale=np.ones(n_features_r), length_scale_bounds=(1e-2, 1e4)) + WhiteKernel(noise_level=1, noise_level_bounds=(1e-4, 1e2))
-
-models_time = {
-    'rf': RandomForestRegressor(n_estimators=200, random_state=42),
-    'gb': GradientBoostingRegressor(n_estimators=200, random_state=42),
-    'xgb': XGBRegressor(n_estimators=200, objective='reg:absoluteerror', random_state=42),
-    'svm': Pipeline([('scaler', StandardScaler()), ('reg', SVR())]),
-    'lr': Pipeline([('scaler', StandardScaler()), ('reg', LinearRegression())]),
-    'gpr': Pipeline([('scaler', StandardScaler()), ('gpr', GaussianProcessRegressor(kernel=kernel, n_restarts_optimizer=5, random_state=42))])
-}
-
-best_thresh_model = None
-best_thresh_acc = -1
-best_time_model = None
-best_time_mae = float('inf')
-
-print("\n--- Model Benchmark Results ---")
-print(f"{'Model':<10} | {'Type':<10} | {'Metric':<10} | {'Score':<10}")
-print("-" * 50)
-
-# Encode labels for XGBoost fit-only
-le = LabelEncoder()
-le.fit(y_train_t)
-y_train_thresh_enc = le.transform(y_train_t)
-
-# Handle unseen labels in validation
-y_val_thresh_enc = []
-for label in y_val_t:
-    if label in le.classes_:
-        y_val_thresh_enc.append(le.transform([label])[0])
-    else:
-        y_val_thresh_enc.append(0)
-y_val_thresh_enc = np.array(y_val_thresh_enc)
-
-for name, model in models_thresh.items():
-    if name == 'xgb':
-        model.fit(X_train_t, y_train_thresh_enc)
-        y_pred_enc = model.predict(X_val_t)
-        y_pred = le.inverse_transform(y_pred_enc)
-    else:
-        model.fit(X_train_t, y_train_t)
-        y_pred = model.predict(X_val_t)
+def get_xy(df, features, target_col, log_target=False):
+    mask_train = df['filename'].isin(train_files)
+    mask_val = df['filename'].isin(val_files)
+    
+    X_train = df.loc[mask_train, features]
+    X_val = df.loc[mask_val, features]
+    y_train = df.loc[mask_train, target_col]
+    y_val = df.loc[mask_val, target_col]
+    
+    if log_target:
+        y_train = np.log(y_train + 1e-6)
+        # Keep y_val in real scale for MAE
         
-    acc = accuracy_score(y_val_t, y_pred)
-    print(f"{name:<10} | {'Thresh':<10} | {'Accuracy':<10} | {acc:.4f}")
+    return X_train, y_train, X_val, y_val
+
+# --- Feature Sets ---
+exclude = ['filename', 'target_threshold', 'target_runtime', 'backend_cpu', 'precision_single', 'input_threshold', 'avg_2q_dist', 'max_2q_dist']
+base_structural = [c for c in df_t.columns if c not in exclude and not c.startswith('n_')]
+gate_counts = [c for c in df_t.columns if c.startswith('n_') and c not in ['n_qubits', 'n_gates', 'n_2q']]
+
+# Base Features (No Distance)
+feats_base = base_structural + gate_counts + ['n_qubits', 'n_gates', 'depth', 'n_2q', 'entanglement_density', 'backend_cpu', 'precision_single']
+# Full Features (With Distance)
+feats_dist = feats_base + ['avg_2q_dist', 'max_2q_dist']
+
+# Note: Runtime models need 'input_threshold'
+feats_base_r = feats_base + ['input_threshold']
+feats_dist_r = feats_dist + ['input_threshold']
+
+# --- Ablation Stuy ---
+print("\n--- Ablation Study: Long Range Gates ---")
+results = {}
+
+for name, f_set_t, f_set_r in [("Without_Dist", feats_base, feats_base_r), ("With_Dist", feats_dist, feats_dist_r)]:
+    print(f"\nTesting {name} ...")
     
-    if acc > best_thresh_acc:
-        best_thresh_acc = acc
-        best_thresh_model = model
-
-# Runtime Benchmark
-for name, model in models_time.items():
-    model.fit(X_train_r, y_train_r)
-    y_pred_log = model.predict(X_val_r)
-    # Clip log predictions to avoid overflow
-    y_pred_log = np.clip(y_pred_log, None, 15)
-    y_pred = np.exp(y_pred_log)
-    mae = mean_absolute_error(y_val_r, y_pred)
-    print(f"{name:<10} | {'Runtime':<10} | {'MAE (s)':<10} | {mae:.4f}")
+    # Threshold
+    X_tr, y_tr, X_v, y_v = get_xy(df_t, f_set_t, 'target_threshold')
+    accs = []
+    # Test RF (usually best)
+    rf = RandomForestClassifier(n_estimators=100, random_state=42)
+    rf.fit(X_tr, y_tr)
+    pred = rf.predict(X_v)
+    acc = accuracy_score(y_v, pred)
+    print(f"  Threshold (RF) Acc: {acc:.4f}")
+    results[f"{name}_Thresh"] = acc
     
-    if mae < best_time_mae:
-        best_time_mae = mae
-        best_time_model = model
+    # Runtime
+    X_tr, y_tr_log, X_v, y_v_real = get_xy(df_r, f_set_r, 'target_runtime', log_target=True)
+    # Test GB (usually best)
+    gb = GradientBoostingRegressor(n_estimators=100, random_state=42)
+    gb.fit(X_tr, y_tr_log)
+    pred_log = gb.predict(X_v)
+    pred = np.exp(pred_log)
+    mae = mean_absolute_error(y_v_real, pred)
+    print(f"  Runtime (GB) MAE: {mae:.4f}")
+    results[f"{name}_Runtime"] = mae
 
-print("-" * 50)
-print(f"Best Threshold Model: {best_thresh_model.__class__.__name__} (Acc: {best_thresh_acc:.4f})")
-print(f"Best Runtime Model:   {best_time_model.__class__.__name__} (MAE: {best_time_mae:.4f})")
+# Decision
+print("\n--- Decision ---")
+best_feats_t = feats_dist
+best_feats_r = feats_dist_r
+use_dist = True
 
-# --- Save All Models ---
-print("\nSaving all models...")
+# Bias towards keeping unless significant drop, or user requested removing if increases score?
+# User: "try removing... if that increases score"
+# So if Without > With (Acc) or Without < With (MAE), switch.
 
-# Threshold Models
-for name, model in models_thresh.items():
-    joblib.dump(model, MODELS_DIR / f'{name}_threshold.joblib')
+if results["Without_Dist_Thresh"] > results["With_Dist_Thresh"]:
+    print(f"Removing Distance Features improves Threshold: {results['Without_Dist_Thresh']} > {results['With_Dist_Thresh']}")
+    best_feats_t = feats_base
+    use_dist = False
 
-# Runtime Models
-for name, model in models_time.items():
-    joblib.dump(model, MODELS_DIR / f'{name}_runtime.joblib')
+if results["Without_Dist_Runtime"] < results["With_Dist_Runtime"]:
+    print(f"Removing Distance Features improves Runtime: {results['Without_Dist_Runtime']} < {results['With_Dist_Runtime']}")
+    best_feats_r = feats_base_r
+    # We can split features per model, but simpler to align? No, predict.py calls separate models.
+    # Let's optimize separately.
 
-# Save Best (Standard Names for Predict.py default usage)
-joblib.dump(best_thresh_model, MODELS_DIR / 'rf_threshold.joblib')
-joblib.dump(best_time_model, MODELS_DIR / 'rf_runtime.joblib')
+# Final Training
+print("\n--- Training Final Models (With 80/20 Validation for Report) ---")
+# Use the winning feature sets
+X_full_t, y_full_t, X_val_t, y_val_t = get_xy(df_t, best_feats_t, 'target_threshold')
+X_full_r, y_full_log_r, X_val_r, y_val_real_r = get_xy(df_r, best_feats_r, 'target_runtime', log_target=True)
 
-joblib.dump(feature_cols_thresh, MODELS_DIR / 'feature_cols.joblib')
-joblib.dump(feature_cols_runtime, MODELS_DIR / 'feature_cols_runtime.joblib')
-joblib.dump(le, MODELS_DIR / 'label_encoder.joblib')
-print("Done.")
+# Train RF Threshold
+rf_final = RandomForestClassifier(n_estimators=200, random_state=42)
+rf_final.fit(X_full_t, y_full_t)
+val_pred_t = rf_final.predict(X_val_t)
+final_acc = accuracy_score(y_val_t, val_pred_t)
 
-# --- Feature Importance Analysis ---
-print("\n--- Feature Importance Analysis ---")
-if hasattr(best_thresh_model, 'feature_importances_'):
-    print(f"\nTop 10 Features for Threshold Model ({best_thresh_model.__class__.__name__}):")
-    importances = best_thresh_model.feature_importances_
-    indices = np.argsort(importances)[::-1]
-    for i in range(min(10, len(indices))):
-        print(f"{feature_cols_thresh[indices[i]]:<30} | {importances[indices[i]]:.4f}")
+# Train GB Runtime
+gb_final = GradientBoostingRegressor(n_estimators=200, random_state=42)
+gb_final.fit(X_full_r, y_full_log_r)
+val_pred_log_r = gb_final.predict(X_val_r)
+val_pred_r = np.exp(val_pred_log_r)
+final_mae = mean_absolute_error(y_val_real_r, val_pred_r)
 
-if hasattr(best_time_model, 'feature_importances_'):
-    print(f"\nTop 10 Features for Runtime Model ({best_time_model.__class__.__name__}):")
-    importances = best_time_model.feature_importances_
-    indices = np.argsort(importances)[::-1]
-    for i in range(min(10, len(indices))):
-        print(f"{feature_cols_runtime[indices[i]]:<30} | {importances[indices[i]]:.4f}")
+print(f"Final Validation Accuracy: {final_acc:.4f}")
+print(f"Final Validation MAE: {final_mae:.4f}")
+
+# Save Models
+print("Saving...")
+joblib.dump(rf_final, MODELS_DIR / 'rf_threshold.joblib')
+joblib.dump(gb_final, MODELS_DIR / 'rf_runtime.joblib') # Save GB as the 'rf_runtime' slot for predict.py compat
+joblib.dump(best_feats_t, MODELS_DIR / 'feature_cols.joblib')
+joblib.dump(best_feats_r, MODELS_DIR / 'feature_cols_runtime.joblib')
+
+# Save Validation Predictions for Report
+# We need to reconstruct the dataframe for the report
+df_val_report = df_r.loc[df_r['filename'].isin(val_files)].copy()
+df_val_report['pred_runtime'] = val_pred_r
+df_val_report['true_runtime'] = y_val_real_r
+df_val_report.to_csv('runtime_predictions.csv', index=False)
+
+print("Saved runtime_predictions.csv (Validation Set Only)")
