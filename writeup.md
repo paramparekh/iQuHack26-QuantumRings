@@ -12,22 +12,22 @@ We extracted a comprehensive set of features to capture the structural complexit
 ### Structural Features & Formulas
 *   **`treewidth`**: A measure of how close the interaction graph is to a tree. Formally, it is the size of the largest bag in an optimal tree decomposition of $G$ minus 1. Low treewidth ($\sim 1$) implies efficient simulation via tensor network contraction.
 *   **`max_cutwidth`**: The maximum number of edges crossing any cut in the linear arrangement of qubits.
-    $$ \text{cutwidth} = \max_i | \{ (u,v) \in E : u \le i < v \} | $$
+    $\text{cutwidth} = \max_i | \{ (u,v) \in E : u \le i < v \} |$
     High cutwidth indicates high "congestion" and memory requirements for state-vector simulation.
 *   **`n_qubits`** ($N_{nodes}$): Total physical qubits.
 *   **`depth`**: Longest path of dependent operations in the circuit (calculated via Qiskit).
 
 ### Gate Composition & Density
 *   **`two_qubit_gate_density`**: Fraction of gates that entangle qubits.
-    $$ \rho_{2q} = \frac{N_{2q}}{N_{total}} $$
+    $\rho_{2q} = \frac{N_{2q}}{N_{total}}$
 *   **`entanglement_density`**: Entangling power per qubit.
-    $$ \rho_{ent} = \frac{N_{2q}}{N_{qubits}} $$
+    $\rho_{ent} = \frac{N_{2q}}{N_{qubits}}$
 *   **`clifford_gate_count`**: Count of efficient Clifford gates (H, S, CX).
 *   **`t_gate_count` & `s_gate_count`**: Counts of non-Clifford gates (specifically T/Tdag) which are traditionally expensive to simulate.
 
 ### Layout & Interaction
 *   **`avg_2q_dist`**: Average linear distance between interacting qubits.
-    $$ \text{avg\_dist} = \frac{1}{N_{2q}} \sum_{(u,v) \in \text{gates}} |u - v| $$
+    $\text{avg\_dist} = \frac{1}{N_{2q}} \sum_{(u,v) \in \text{gates}} |u - v|$
     Higher values imply non-local interactions, which generally increase entanglement spread.
 
 ### Impact on Entanglement
