@@ -9,7 +9,7 @@ from sklearn.metrics import accuracy_score, mean_absolute_error, mean_squared_er
 
 # --- Configuration ---
 DATA_PATH = Path('data/hackathon_public.json')
-FEATURES_PATH = Path('data/training_features.json')
+FEATURES_PATH = Path('circuit_features.json')
 MODELS_DIR = Path('models')
 MODELS_DIR.mkdir(exist_ok=True)
 

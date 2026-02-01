@@ -1,33 +1,3 @@
-# Circuit Feature Extraction with Graph Analysis
-# 
-# This script extracts various features from quantum circuits in QASM format:
-#
-# Features extracted:
-# 1. Gate counts: Number of each type of quantum gate (u2, u3, cx, h, etc.)
-# 2. Number of qubits: Total qubits used in the circuit
-# 3. Circuit depth: Number of time steps needed to execute the circuit sequentially
-# 4. Treewidth: Measures how "tree-like" the circuit's connectivity is
-#    - Low treewidth (1-2): Circuit connectivity is simple, like a tree
-#    - High treewidth: Circuit has complex connectivity, like a dense mesh
-#    - Important for: Simulation complexity, optimization potential, hardware mapping
-# 5. Max gate arity: Maximum number of qubits a single gate operates on
-#    - Low arity (1-2): Simple single and two-qubit gates
-#    - High arity: Complex multi-qubit gates, harder to implement on hardware
-# 6. Two-qubit gate density: Ratio of two-qubit gates to total gates
-#    - Low density: Mostly single-qubit operations, less entanglement
-#    - High density: Many two-qubit operations, more entanglement, harder to simulate
-# 7. T-gate count: Number of T gates (non-Clifford, expensive to implement)
-#    - Important for: Magic state distillation overhead, fault-tolerance cost
-# 8. S-gate count: Number of S gates (Clifford phase gates)
-#    - Important for: Circuit optimization, gate decomposition
-# 9. Clifford gate count: Number of Clifford gates (efficient to implement)
-#    - Includes: H, S, SDG, X, Y, Z, CX, CZ, SWAP, and their controlled variants
-#    - Important for: Fault-tolerant quantum computing, error correction
-# 10. Interaction graph: Graph showing which qubits interact with each other
-#    - Nodes: Qubits
-#    - Edges: Multi-qubit gates connecting qubits
-#    - Edge weights: Number of interactions between qubit pairs
-
 import os
 import json
 import re
