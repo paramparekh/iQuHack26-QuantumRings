@@ -3,34 +3,34 @@
 ## Summary
 | Metric | Value | Description |
 | :--- | :--- | :--- |
-| **Accuracy Score** | **8.64%** | 100% - Weighted Percentage Error |
-| **MAE** | **61.98 s** | Average prediction error in seconds |
+| **Accuracy Score** | **75.73%** | % Predictions with error < 60s |
+| **MAE** | **69.06 s** | Average prediction error in seconds |
 | **Total Samples** | 103 | Circuit/Threshold Configurations |
 
 ## 🎯 Best Predictions (Top 10)
 | Circuit | Threshold | True Time (s) | Predicted (s) | Error (s) |
 | :--- | :--- | :--- | :--- | :--- |
-| `wstate_indep_qiskit_30.qasm` | 1 | 0.24 | 0.24 | 0.00 |
-| `portfolioqaoa_indep_qiskit_10.qasm` | 4 | 0.25 | 0.24 | 0.01 |
-| `qftentangled_indep_qiskit_30.qasm` | 2 | 12.81 | 12.80 | 0.01 |
-| `portfolioqaoa_indep_qiskit_10.qasm` | 2 | 0.23 | 0.25 | 0.02 |
-| `portfolioqaoa_indep_qiskit_10.qasm` | 1 | 0.22 | 0.20 | 0.03 |
-| `wstate_indep_qiskit_30.qasm` | 2 | 0.36 | 0.33 | 0.03 |
-| `twolocalrandom_indep_qiskit_30.qasm` | 2 | 0.71 | 0.75 | 0.04 |
-| `portfolioqaoa_indep_qiskit_10.qasm` | 2 | 0.26 | 0.22 | 0.04 |
-| `wstate_indep_qiskit_30.qasm` | 2 | 0.33 | 0.29 | 0.04 |
-| `twolocalrandom_indep_qiskit_30.qasm` | 4 | 0.92 | 0.88 | 0.04 |
+| `qaoa_indep_qiskit_16.qasm` | 1 | 0.38 | 0.38 | 0.00 |
+| `portfolioqaoa_indep_qiskit_10.qasm` | 16 | 0.43 | 0.44 | 0.01 |
+| `qaoa_indep_qiskit_16.qasm` | 1 | 0.42 | 0.38 | 0.03 |
+| `portfolioqaoa_indep_qiskit_10.qasm` | 16 | 0.34 | 0.44 | 0.11 |
+| `portfolioqaoa_indep_qiskit_10.qasm` | 8 | 0.33 | 0.44 | 0.11 |
+| `portfolioqaoa_indep_qiskit_10.qasm` | 1 | 0.27 | 0.39 | 0.12 |
+| `portfolioqaoa_indep_qiskit_10.qasm` | 2 | 0.26 | 0.39 | 0.13 |
+| `qaoa_indep_qiskit_16.qasm` | 1 | 0.24 | 0.38 | 0.14 |
+| `portfolioqaoa_indep_qiskit_10.qasm` | 8 | 0.28 | 0.44 | 0.16 |
+| `portfolioqaoa_indep_qiskit_10.qasm` | 2 | 0.23 | 0.39 | 0.16 |
 
 ## ⚠️ Outliers / Worst Predictions (Bottom 10)
 | Circuit | Threshold | True Time (s) | Predicted (s) | Error (s) |
 | :--- | :--- | :--- | :--- | :--- |
-| `shor_15_4_indep_qiskit_18.qasm` | 32 | 60.40 | 256.22 | 195.82 |
-| `twolocalrandom_indep_qiskit_30.qasm` | 32 | 269.13 | 69.64 | 199.49 |
-| `twolocalrandom_indep_qiskit_30.qasm` | 64 | 243.68 | 42.21 | 201.47 |
-| `grover-noancilla_indep_qiskit_11.qasm` | 1 | 422.97 | 153.13 | 269.84 |
-| `grover-noancilla_indep_qiskit_11.qasm` | 1 | 451.80 | 172.56 | 279.23 |
-| `twolocalrandom_indep_qiskit_30.qasm` | 128 | 331.28 | 38.67 | 292.60 |
-| `twolocalrandom_indep_qiskit_30.qasm` | 64 | 499.49 | 68.96 | 430.53 |
-| `twolocalrandom_indep_qiskit_30.qasm` | 64 | 700.76 | 9.81 | 690.95 |
-| `twolocalrandom_indep_qiskit_30.qasm` | 256 | 853.15 | 64.79 | 788.36 |
-| `twolocalrandom_indep_qiskit_30.qasm` | 64 | 830.60 | 16.21 | 814.39 |
+| `shor_15_4_indep_qiskit_18.qasm` | 64 | 339.78 | 120.08 | 219.69 |
+| `twolocalrandom_indep_qiskit_30.qasm` | 64 | 243.68 | 18.55 | 225.13 |
+| `twolocalrandom_indep_qiskit_30.qasm` | 32 | 269.13 | 18.55 | 250.58 |
+| `twolocalrandom_indep_qiskit_30.qasm` | 128 | 331.28 | 18.17 | 313.11 |
+| `grover-noancilla_indep_qiskit_11.qasm` | 1 | 422.97 | 24.52 | 398.46 |
+| `grover-noancilla_indep_qiskit_11.qasm` | 1 | 451.80 | 24.52 | 427.28 |
+| `twolocalrandom_indep_qiskit_30.qasm` | 64 | 499.49 | 18.55 | 480.94 |
+| `twolocalrandom_indep_qiskit_30.qasm` | 64 | 700.76 | 18.55 | 682.22 |
+| `twolocalrandom_indep_qiskit_30.qasm` | 64 | 830.60 | 18.55 | 812.06 |
+| `twolocalrandom_indep_qiskit_30.qasm` | 256 | 853.15 | 17.99 | 835.16 |

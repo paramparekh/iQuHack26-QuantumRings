@@ -6,8 +6,10 @@ def generate_md():
     
     # Calculate Metrics
     mae = np.mean(np.abs(df['true_runtime'] - df['pred_runtime']))
-    w_mape = np.sum(np.abs(df['true_runtime'] - df['pred_runtime'])) / np.sum(df['true_runtime'])
-    accuracy_score = max(0, 100 * (1 - w_mape))
+    
+    # Accuracy within 60 seconds
+    within_60 = np.mean(np.abs(df['true_runtime'] - df['pred_runtime']) < 60.0)
+    accuracy_score = within_60 * 100
     
     # Sort by Error
     df['abs_diff'] = abs(df['true_runtime'] - df['pred_runtime'])
@@ -21,7 +23,7 @@ def generate_md():
 ## Summary
 | Metric | Value | Description |
 | :--- | :--- | :--- |
-| **Accuracy Score** | **{accuracy_score:.2f}%** | 100% - Weighted Percentage Error |
+| **Accuracy Score** | **{accuracy_score:.2f}%** | % Predictions with error < 60s |
 | **MAE** | **{mae:.2f} s** | Average prediction error in seconds |
 | **Total Samples** | {len(df)} | Circuit/Threshold Configurations |
 
