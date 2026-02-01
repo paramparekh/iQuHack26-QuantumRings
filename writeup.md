@@ -53,5 +53,5 @@ We designed a **2-Stage Chained Pipeline** to leverage the causal relationship b
 *   **Runtime Accuracy**: **84%** (within tolerance)
 
 ## 4. Limitations
-*   **Generalization**: Performance on arbitrary custom gates not seen in training is unverified.
-*   **Cloud Variance**: Minimum correlation with extreme cloud queue outliers.
+*   **Basis Gate Generalization**: This model is optimized for the specific basis gates (Clifford+T, etc.) observed in the training set. Performance on circuits utilizing arbitrary unitary blocks or unseen native gate sets is unverified and would likely require retraining.
+*   **System Contention**: The model predicts the inherent *execution time* of the circuit on the hardware. It does not account for stochastic delays caused by multi-tenant resource contention, scheduler latency, or queue times on public cloud backends.
