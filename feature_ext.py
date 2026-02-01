@@ -1,33 +1,3 @@
-# Circuit Feature Extraction with Graph Analysis
-# 
-# This script extracts various features from quantum circuits in QASM format:
-#
-# Features extracted:
-# 1. Gate counts: Number of each type of quantum gate (u2, u3, cx, h, etc.)
-# 2. Number of qubits: Total qubits used in the circuit
-# 3. Circuit depth: Number of time steps needed to execute the circuit sequentially
-# 4. Treewidth: Measures how "tree-like" the circuit's connectivity is
-#    - Low treewidth (1-2): Circuit connectivity is simple, like a tree
-#    - High treewidth: Circuit has complex connectivity, like a dense mesh
-#    - Important for: Simulation complexity, optimization potential, hardware mapping
-# 5. Max gate arity: Maximum number of qubits a single gate operates on
-#    - Low arity (1-2): Simple single and two-qubit gates
-#    - High arity: Complex multi-qubit gates, harder to implement on hardware
-# 6. Two-qubit gate density: Ratio of two-qubit gates to total gates
-#    - Low density: Mostly single-qubit operations, less entanglement
-#    - High density: Many two-qubit operations, more entanglement, harder to simulate
-# 7. T-gate count: Number of T gates (non-Clifford, expensive to implement)
-#    - Important for: Magic state distillation overhead, fault-tolerance cost
-# 8. S-gate count: Number of S gates (Clifford phase gates)
-#    - Important for: Circuit optimization, gate decomposition
-# 9. Clifford gate count: Number of Clifford gates (efficient to implement)
-#    - Includes: H, S, SDG, X, Y, Z, CX, CZ, SWAP, and their controlled variants
-#    - Important for: Fault-tolerant quantum computing, error correction
-# 10. Interaction graph: Graph showing which qubits interact with each other
-#    - Nodes: Qubits
-#    - Edges: Multi-qubit gates connecting qubits
-#    - Edge weights: Number of interactions between qubit pairs
-
 import os
 import json
 import re
@@ -38,7 +8,7 @@ import networkx as nx
 from pathlib import Path
 
 # Config
-DEFAULT_OUTPUT_PATH = "data/training_features.json"
+DEFAULT_OUTPUT_PATH = "circuit_features.json"
 
 def extract_features(qasm_path, circuit_info=None):
     """
@@ -67,12 +37,11 @@ def extract_features(qasm_path, circuit_info=None):
             qubits = int(filename_parts[-1][1:])
          except ValueError:
             pass
-    # Fallback to last part logic from original script if needed
     
     gates = defaultdict(int)
     edges = defaultdict(int)
     max_index = -1
-    max_gate_arity = 1  # default to 1 for valid circuit
+    max_gate_arity = 1 
 
     try:
         with open(path, 'r') as f:
@@ -116,15 +85,15 @@ def extract_features(qasm_path, circuit_info=None):
         try:
             qc = QuantumCircuit.from_qasm_file(str(path))
             circuit_depth = qc.depth()
-        except Exception as e:
+        except Exception:
             # print(f"Error loading {fname} with Qiskit: {e}")
-            circuit_depth = 0 # Default
+            circuit_depth = 0 
 
         # Treewidth
         nodes = list(range(computed_n_qubits)) if computed_n_qubits > 0 else []
         edges_list = [[a, b, w] for (a, b), w in edges.items()]
         
-        treewidth = 1 # Default
+        treewidth = 1 
         if nodes:
             G = nx.Graph()
             G.add_nodes_from(nodes)
@@ -141,18 +110,34 @@ def extract_features(qasm_path, circuit_info=None):
         # Gate Count
         n_gates = sum(gates.values())
         
+        # New Feature Logic Integration
+        # Calculate two-qubit gate density
+        total_gates = n_gates
+        two_qubit_gates = sum(count for gate, count in gates.items() 
+                            if any(gate.startswith(prefix) for prefix in ['cx', 'cz', 'ch', 'swap', 'cp', 'cu1', 'cu2', 'cu3', 'rxx', 'ryy', 'rzz', 'rzx']))
+        
+        two_qubit_density = two_qubit_gates / total_gates if total_gates > 0 else 0.0
+
+        # Count specific important gates
+        t_gate_count = gates.get('t', 0) + gates.get('tdg', 0)  # T and T-dagger gates
+        s_gate_count = gates.get('s', 0) + gates.get('sdg', 0)  # S and S-dagger gates
+        
+        # Count Clifford gates
+        clifford_gates = ['h', 'x', 'y', 'z', 's', 'sdg', 'cx', 'cz', 'swap', 'ch', 'cy', 'cz']
+        clifford_gate_count = sum(gates.get(gate, 0) for gate in clifford_gates)
+
         return {
             'filename': fname,
             'gates': dict(gates),
             'num_qubits': computed_n_qubits,
             'depth': circuit_depth,
-            'gate_count': n_gates, # Added for convenience
+            'gate_count': n_gates,
             'treewidth': treewidth,
             'max_gate_arity': max_gate_arity,
-            'interaction_graph': {
-                'nodes': nodes,
-                'edges': edges_list
-            }
+            'two_qubit_gate_density': two_qubit_density,
+            't_gate_count': t_gate_count,
+            's_gate_count': s_gate_count,
+            'clifford_gate_count': clifford_gate_count
         }
 
     except Exception as e:
@@ -164,7 +149,7 @@ def main():
     script_dir = Path(__file__).parent
     circuit_path = script_dir / "circuits"
     data_path = script_dir / "data/hackathon_public.json"
-    output_path = script_dir / "data/training_features.json" # Match expected path
+    output_path = script_dir / "circuit_features.json" 
     
     print(f"Reading circuits from {circuit_path}...")
     
@@ -173,7 +158,6 @@ def main():
     if data_path.exists():
         with open(data_path, 'r') as f:
             d = json.load(f)
-            # Adapting to correct schema:
             for row in d.get('results', []):
                 circuit_info[row['file']] = {
                     'n_qubits': None 
