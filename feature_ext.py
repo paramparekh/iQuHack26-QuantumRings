@@ -137,11 +137,7 @@ def extract_features(qasm_path, circuit_info=None):
             'two_qubit_gate_density': two_qubit_density,
             't_gate_count': t_gate_count,
             's_gate_count': s_gate_count,
-            'clifford_gate_count': clifford_gate_count,
-            'interaction_graph': {
-                'nodes': nodes,
-                'edges': edges_list
-            }
+            'clifford_gate_count': clifford_gate_count
         }
 
     except Exception as e:
