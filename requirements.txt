@@ -1,6 +1,7 @@
-qiskit>=1.0.0
+qiskit
 numpy
 pandas
 scikit-learn
 joblib
 networkx
+xgboost

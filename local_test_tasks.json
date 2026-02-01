@@ -1,0 +1,244 @@
+{
+  "tasks": [
+    {
+      "id": "VAL_001",
+      "processor": "CPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_002",
+      "processor": "CPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_003",
+      "processor": "GPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_004",
+      "processor": "GPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_005",
+      "processor": "CPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_006",
+      "processor": "CPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_007",
+      "processor": "GPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_008",
+      "processor": "GPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_009",
+      "processor": "CPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_010",
+      "processor": "CPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_011",
+      "processor": "GPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_012",
+      "processor": "GPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_013",
+      "processor": "CPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_014",
+      "processor": "CPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_015",
+      "processor": "GPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_016",
+      "processor": "GPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_017",
+      "processor": "CPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_018",
+      "processor": "CPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_019",
+      "processor": "GPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_020",
+      "processor": "GPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_021",
+      "processor": "CPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_022",
+      "processor": "CPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_023",
+      "processor": "GPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_024",
+      "processor": "GPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_025",
+      "processor": "CPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_026",
+      "processor": "CPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_027",
+      "processor": "GPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_028",
+      "processor": "GPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_029",
+      "processor": "CPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_030",
+      "processor": "CPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_031",
+      "processor": "GPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_032",
+      "processor": "GPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_033",
+      "processor": "CPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_034",
+      "processor": "CPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_035",
+      "processor": "GPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_036",
+      "processor": "GPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_037",
+      "processor": "CPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_038",
+      "processor": "CPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_039",
+      "processor": "GPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_040",
+      "processor": "GPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_041",
+      "processor": "CPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_042",
+      "processor": "CPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_043",
+      "processor": "GPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_044",
+      "processor": "GPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_045",
+      "processor": "CPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_046",
+      "processor": "CPU",
+      "precision": "single"
+    },
+    {
+      "id": "VAL_047",
+      "processor": "GPU",
+      "precision": "double"
+    },
+    {
+      "id": "VAL_048",
+      "processor": "GPU",
+      "precision": "single"
+    }
+  ]
+}

@@ -4,15 +4,16 @@ import numpy as np
 import joblib
 from pathlib import Path
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-from sklearn.metrics import accuracy_score, mean_absolute_error, mean_squared_error
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor, GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn.metrics import accuracy_score, mean_absolute_error
+from sklearn.preprocessing import LabelEncoder
+from xgboost import XGBClassifier, XGBRegressor
 
 # --- Configuration ---
 DATA_PATH = Path('data/hackathon_public.json')
 FEATURES_PATH = Path('circuit_features.json')
 MODELS_DIR = Path('models')
-MODELS_DIR.mkdir(exist_ok=True)
-
+MODELS_DIR.mkdir(exist_ok=True, parents=True)
 
 # --- 1. Load and Prepare Data ---
 print("Loading data...")
@@ -32,7 +33,6 @@ def get_row_data(row):
     filename = row['file']
     
     # 1. Targets
-    # Find Min Threshold
     true_threshold = None
     threshold_sweep = sorted(row['threshold_sweep'], key=lambda x: x['threshold'])
     for run in threshold_sweep:
@@ -41,46 +41,44 @@ def get_row_data(row):
             true_threshold = run['threshold']
             break
     
-    # Identify failures
     if true_threshold is None:
         if row['status'] == 'no_threshold_met':
-             true_threshold = 256 # Saturate max? Or exclude. Let's saturate for now.
+             true_threshold = 256
         else:
-             return None # Skip broken runs
+             return None
     
-    # Find Runtime
-    # We want 'forward.run_wall_s'
     forward_time = row.get('forward', {}).get('run_wall_s')
     if forward_time is None:
-        return None # Can't train runtime model without label
+        return None
 
-    # 2. Features
     if filename not in feature_map:
         return None
     
     feats = feature_map[filename]
     
-    # Flatten features from new schema
-    # Schema: {"gates": {...}, "num_qubits": N, "depth": D, "gate_count": G, "entanglement_density": ED}
     datum = {}
     datum['filename'] = filename
     datum['n_qubits'] = feats['num_qubits']
     datum['depth'] = feats['depth']
     datum['n_gates'] = feats['gate_count'] 
     
-    # New features from feature_ext
     datum['treewidth'] = feats.get('treewidth', 1)
     datum['max_gate_arity'] = feats.get('max_gate_arity', 1)
     
-    # Entanglement Density Estimate (if not directly provided)
-    # We can calculate it from gates if we want, or rely on treewidth.
-    # Let's keep a simple calculation for backward compatibility logic
-    # n_2q roughly equals cx + cz + cp etc.
+    # New features
+    datum['two_qubit_gate_density'] = feats.get('two_qubit_gate_density', 0)
+    datum['t_gate_count'] = feats.get('t_gate_count', 0)
+    datum['s_gate_count'] = feats.get('s_gate_count', 0)
+    datum['clifford_gate_count'] = feats.get('clifford_gate_count', 0)
+    
     gates = feats['gates']
     n_2q = gates.get('cx', 0) + gates.get('cz', 0) + gates.get('cp', 0)
     datum['entanglement_density'] = n_2q / feats['num_qubits'] if feats['num_qubits'] > 0 else 0
+    
+    # Structural features
+    datum['q_depth'] = datum['n_qubits'] * datum['depth']
+    datum['q_gates'] = datum['n_qubits'] * datum['n_gates']
 
-    # Flatten gates
     for g_name, count in gates.items():
         datum[f'n_{g_name}'] = count
         
@@ -103,7 +101,6 @@ for row in data['results']:
 df = pd.DataFrame(dataset)
 print(f"Processed dataframe shape: {df.shape}")
 
-# User requested 80/20 split on entire dataset (Train / Validation)
 unique_files = df['filename'].unique()
 train_files, val_files = train_test_split(unique_files, test_size=0.2, random_state=42)
 
@@ -116,22 +113,15 @@ val_df = df[val_mask]
 print(f"Train samples: {len(train_df)} (from {len(train_files)} circuits)")
 print(f"Validation samples: {len(val_df)} (from {len(val_files)} circuits)")
 
-print(f"Validation samples: {len(val_df)} (from {len(val_files)} circuits)")
-
-# Determine feature columns dynamically based on what we found (plus standard ones)
-# We want to exclude targets and filename
 exclude_cols = ['filename', 'target_threshold', 'target_runtime', 'backend_cpu', 'precision_single']
 potential_features = [c for c in df.columns if c not in exclude_cols]
 
-# User might want specific ordering or specific set.
-# Let's ensure our standard structural ones are there
-base_features = ['n_qubits', 'n_gates', 'depth', 'n_2q', 'entanglement_density', 'backend_cpu', 'precision_single']
+base_features = ['n_qubits', 'n_gates', 'depth', 'n_2q', 'entanglement_density', 'treewidth', 'max_gate_arity', 'two_qubit_gate_density', 't_gate_count', 's_gate_count', 'clifford_gate_count', 'q_depth', 'q_gates', 'backend_cpu', 'precision_single']
 gate_features = [c for c in potential_features if c.startswith('n_') and c not in base_features]
 feature_cols = base_features + gate_features
 
-print(f"Features used: {feature_cols}")
+print(f"Features used ({len(feature_cols)}): {feature_cols}")
 
-# Fill NaNs with 0 (for gates not present in a file but present in others)
 df[feature_cols] = df[feature_cols].fillna(0)
 
 target_thresh = 'target_threshold'
@@ -145,54 +135,80 @@ X_val = df.loc[val_mask, feature_cols]
 y_val_thresh = df.loc[val_mask, target_thresh]
 y_val_time = df.loc[val_mask, target_time]
 
-# --- 3. Model Training ---
+# --- Model Benchmarking ---
 
-# A) Threshold Model (Classifier)
-print("Training Threshold Classifier (RandomForest)...")
-rf_thresh = RandomForestClassifier(n_estimators=100, random_state=42)
-rf_thresh.fit(X_train, y_train_thresh)
+results = []
 
-# B) Runtime Model (Regressor)
-print("Training Runtime Regressor (RandomForest)...")
-rf_time = RandomForestRegressor(n_estimators=100, random_state=42)
-rf_time.fit(X_train, y_train_time)
+models_thresh = {
+    'rf': RandomForestClassifier(n_estimators=200, random_state=42),
+    'gb': GradientBoostingClassifier(n_estimators=200, random_state=42),
+    'xgb': XGBClassifier(n_estimators=200, eval_metric='logloss', random_state=42)
+}
 
-# --- 4. Evaluation ---
+models_time = {
+    'rf': RandomForestRegressor(n_estimators=200, random_state=42),
+    'gb': GradientBoostingRegressor(n_estimators=200, random_state=42),
+    'xgb': XGBRegressor(n_estimators=200, objective='reg:absoluteerror', random_state=42)
+}
 
-# A) Training Set Metrics
-print("\n--- Training Metrics ---")
-y_train_pred_thresh = rf_thresh.predict(X_train)
-train_acc = accuracy_score(y_train_thresh, y_train_pred_thresh)
-print(f"Training Threshold Accuracy: {train_acc:.4f}")
+best_thresh_model = None
+best_thresh_acc = -1
+best_time_model = None
+best_time_mae = float('inf')
 
-y_train_pred_log_time = rf_time.predict(X_train)
-y_train_pred_time = np.exp(y_train_pred_log_time)
-train_mae = mean_absolute_error(np.exp(y_train_time), y_train_pred_time)
-print(f"Training Runtime MAE (s):   {train_mae:.4f}")
+print("\n--- Model Benchmark Results ---")
+print(f"{'Model':<10} | {'Type':<10} | {'Metric':<10} | {'Score':<10}")
+print("-" * 50)
 
-# B) Validation Set Metrics
-print("\n--- Validation Metrics ---")
-y_pred_thresh = rf_thresh.predict(X_val)
-acc = accuracy_score(y_val_thresh, y_pred_thresh)
-print(f"Validation Threshold Accuracy: {acc:.4f}")
+# Encode labels for XGBoost
+le = LabelEncoder()
+y_all_thresh = pd.concat([y_train_thresh, y_val_thresh])
+le.fit(y_all_thresh)
+y_train_thresh_enc = le.transform(y_train_thresh)
+y_val_thresh_enc = le.transform(y_val_thresh)
 
-# Runtime Eval
-y_pred_log_time = rf_time.predict(X_val)
-y_pred_time = np.exp(y_pred_log_time)
-mae = mean_absolute_error(y_val_time, y_pred_time)
-print(f"Validation Runtime MAE (s):   {mae:.4f}")
+for name, model in models_thresh.items():
+    if name == 'xgb':
+        model.fit(X_train, y_train_thresh_enc)
+        y_pred_enc = model.predict(X_val)
+        y_pred = le.inverse_transform(y_pred_enc)
+    else:
+        model.fit(X_train, y_train_thresh)
+        y_pred = model.predict(X_val)
+        
+    acc = accuracy_score(y_val_thresh, y_pred)
+    print(f"{name:<10} | {'Thresh':<10} | {'Accuracy':<10} | {acc:.4f}")
+    
+    if acc > best_thresh_acc:
+        best_thresh_acc = acc
+        best_thresh_model = model
 
-# Feature Importance
-print("\nFeature Importances:")
-importances = rf_thresh.feature_importances_
-indices = np.argsort(importances)[::-1]
-for i in range(min(20, len(indices))):
-    print(f"{feature_cols[indices[i]]}: {importances[indices[i]]:.4f}")
+# Runtime Benchmark
+for name, model in models_time.items():
+    model.fit(X_train, y_train_time)
+    y_pred_log = model.predict(X_val)
+    y_pred = np.exp(y_pred_log)
+    mae = mean_absolute_error(y_val_time, y_pred)
+    print(f"{name:<10} | {'Runtime':<10} | {'MAE (s)':<10} | {mae:.4f}")
+    
+    if mae < best_time_mae:
+        best_time_mae = mae
+        best_time_model = model
 
-# --- 5. Save Models ---
-print("Saving models...")
-joblib.dump(rf_thresh, MODELS_DIR / 'rf_threshold.joblib')
-joblib.dump(rf_time, MODELS_DIR / 'rf_runtime.joblib')
-# Also save the feature columns, as we need them for prediction!
+print("-" * 50)
+print(f"Best Threshold Model: {best_thresh_model.__class__.__name__} (Acc: {best_thresh_acc:.4f})")
+print(f"Best Runtime Model:   {best_time_model.__class__.__name__} (MAE: {best_time_mae:.4f})")
+
+# --- Save Best Models ---
+print("\nSaving best models...")
+joblib.dump(best_thresh_model, MODELS_DIR / 'rf_threshold.joblib') # Keeping filename same for compatibility
+joblib.dump(best_time_model, MODELS_DIR / 'rf_runtime.joblib')     # Keeping filename same for compatibility
 joblib.dump(feature_cols, MODELS_DIR / 'feature_cols.joblib')
+if best_thresh_model.__class__.__name__ == 'XGBClassifier':
+    joblib.dump(le, MODELS_DIR / 'label_encoder.joblib')
+else:
+    # If using RF, we might not need it, but good to clean up if exists
+    le_path = MODELS_DIR / 'label_encoder.joblib'
+    if le_path.exists():
+        le_path.unlink()
 print("Done.")
