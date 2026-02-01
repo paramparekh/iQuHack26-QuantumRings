@@ -93,7 +93,12 @@ def main():
         feats = extract_features(qasm_path)
         
         if feats is None:
-            continue
+            print(f"Warning: Features failed for {t_id}, using defaults.")
+            feats = {
+                'num_qubits': 0, 'depth': 0, 'gate_count': 0, 'treewidth': 1, 'max_gate_arity': 1,
+                'two_qubit_gate_density': 0, 't_gate_count': 0, 's_gate_count': 0, 'clifford_gate_count': 0,
+                'avg_2q_dist': 0, 'max_2q_dist': 0, 'max_cutwidth': 0, 'gates': {}
+            }
             
         row = {}
         row['n_qubits'] = feats['num_qubits']

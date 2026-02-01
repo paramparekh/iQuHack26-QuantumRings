@@ -18,7 +18,11 @@
 python predict.py --tasks <PATH_TO_THEIR_TASKS.json> --circuits <PATH_TO_THEIR_QASM_FOLDER> --id-map <PATH_TO_THEIR_ID_MAP.json> --out predictions.json
 ```
 
-*   **Note**: If they don't give an ID Map (the docs say they might provide it "at scoring time"), check if the `tasks.json` has filenames directly. `predict.py` handles both cases automatically.
+**Scenario: What if they don't give an ID Map?**
+*   **Don't Panic.**
+*   Our code is smart. If the `tasks.json` has filenames inside it (which is common), `predict.py` will find them automatically.
+*   You can omit `--id-map` if they don't give one, or just pass a dummy path. The script handles it.
+*   **Prompt**: "Do you have an ID Map JSON, or are filenames in the tasks file?"
 
 4.  **Submit Results**:
     *   Upload the generated `predictions.json` to the link they provide.
