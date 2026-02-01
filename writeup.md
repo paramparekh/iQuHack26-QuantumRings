@@ -20,7 +20,6 @@ We extracted the following features to capture the structural and computational 
 | **`two_qubit_gate_density`** | Proportion of gates that are 2-qubit (entangling). <br> $\rho_{2q} = N_{2q} / N_{total}$ | **High Impact**. More entangling gates typically allow entanglement to grow faster, reducing the threshold for efficient simulation. |
 | **`entanglement_density`** | Entangling gates per qubit. <br> $\rho_{ent} = N_{2q} / N_{qubits}$ | **High Impact**. Measures the "intensity" of entanglement operations relative to system size. |
 | **`clifford_gate_count`** | Count of H, S, CX, Z, etc. (Stabilizer operations). | **High Impact**. Clifford circuits are efficiently simulatable (Gottesman-Knill). High proportion $\implies$ easier simulation $\implies$ higher threshold. |
-| **`t_gate_count`** / **`s_gate_count`** | Counts of T (non-Clifford) and S gates. | **High Impact**. T-gates introduce "magic," breaking stabilizer simulability and exponentially increasing cost in some simulators. |
 | **`n_qubits`** | Total physical qubits used. | **Base Complexity**. runtime scales exponentially with qubits for full state-vector, but polynomially for some tensor methods (depending on treewidth). |
 | **`depth`** | Longest path of dependent operations. | **Moderate Impact**. Deeper circuits allow more time for entanglement to build up and spread. |
 | **`n_gates`** | Total gate count. | **Linear Impact**. Runtime generally scales linearly with gate count for a fixed state size, unless entanglement suggests otherwise. |
