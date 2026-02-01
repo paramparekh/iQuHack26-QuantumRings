@@ -1,7 +1,7 @@
 # Circuit Fingerprint Challenge - Submission Write-up
 
 ## 1. Approach & Strategy
-We focused on valid, high-fidelity circuit execution data by strictly filtering out "unused" or "broken" circuits from the provided dataset. 
+We focused on valid, high-fidelity circuit execution data by strictly filtering out "unused" circuits from the provided dataset. 
 *   **Data Cleaning**: We excluded circuits that did not meet the `fidelity >= 0.75` threshold or had missing runtime data.
 *   **Validation Strategy**: We employed a **75% / 25%** Train/Test split on unique circuits. This ensures our reported metrics reflect performance on truly unseen circuit structures.
 *   **Hardware Awareness**: We treated CPU and GPU runs as distinct datapoints, allowing the model to learn hardware-specific runtime characteristics.
