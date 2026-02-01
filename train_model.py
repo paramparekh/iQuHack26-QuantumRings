@@ -179,6 +179,21 @@ acc_r_score = max(0, 100 * (1 - w_mape))
 print(f"Runtime MAE: {mae_r:.4f} s")
 print(f"Runtime Accuracy Score: {acc_r_score:.2f}%")
 
+# --- RETRAIN ON FULL DATASET (For Submission) ---
+print("\nRetraining on 100% of data (Train + Val) for best submission performance...")
+
+# Full Threshold
+X_full_t = df_t[feats_t]
+y_full_t = df_t['target_threshold']
+rf.fit(X_full_t, y_full_t)
+
+# Full Runtime
+X_full_r = df_r[feats_r]
+y_full_log_r = np.log(df_r['target_runtime'] + 1e-6)
+gb.fit(X_full_r, y_full_log_r)
+
+print("Models updated with full knowledge.")
+
 # Save Models
 print("\nSaving best models...")
 joblib.dump(rf, MODELS_DIR / 'rf_threshold.joblib')
