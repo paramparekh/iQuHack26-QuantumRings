@@ -1,6 +1,7 @@
-qiskit>=1.0.0
+scikit-learn
+xgboost
 numpy
 pandas
-scikit-learn
-joblib
+qiskit
 networkx
+joblib
