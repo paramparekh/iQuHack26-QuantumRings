@@ -131,9 +131,9 @@ print(f"STRICT Filtering Applied.")
 print(f"Threshold Samples: {len(df_t)}")
 print(f"Runtime Samples: {len(df_r)}")
 
-# Split (3/4 Train, 1/4 Val as requested)
+# Split (2/3 Train, 1/3 Val as requested -> 24 Train, 12 Val)
 unique_files = df_t['filename'].unique()
-train_files, val_files = train_test_split(unique_files, test_size=0.25, random_state=42)
+train_files, val_files = train_test_split(unique_files, test_size=0.3334, random_state=42)
 
 # Features
 exclude = ['filename', 'target_threshold', 'target_runtime', 'backend_cpu', 'precision_single', 'input_threshold']
