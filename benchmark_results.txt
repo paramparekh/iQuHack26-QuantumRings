@@ -1,10 +1,14 @@
-LATEST RUN (With Long-Range & Cutwidth Features):
-Threshold: Random Forest (62.50%) - Winner!
-Runtime:   XGBoost (86.67s MAE) - Winner!
+LATEST RUN (With Threshold-Aware Runtime Training):
+Threshold: Random Forest (62.50%) - Consistent.
+Runtime:   Gradient Boosting (55.54s MAE) - HUGE IMPROVEMENT!
+           Random Forest (58.11s MAE)
+           XGBoost (60.72s MAE)
+
+--- Why the Improvement? ---
+We now use the 'Threshold' as an INPUT to the runtime model.
+The model learned that Lower Threshold = Faster Runtime.
+Previous models were blind to this and guessed the average (~90s error).
+Now we are precise (~55s error).
 
 Top Features (Threshold): avg_2q_dist, n_h, max_cutwidth
-Top Features (Runtime):   max_2q_dist, q_gates, treewidth
-
---- Previous Bests ---
-Threshold: Gradient Boosting (53.12%)
-Runtime:   GPR (90.85s)
+Top Features (Runtime):   input_threshold (Dominant!), max_2q_dist, treewidth
