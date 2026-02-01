@@ -8,16 +8,23 @@
 ## 2. Feature Engineering
 We extracted structural and interaction features to proxy circuit complexity and simulation cost (based on the **Interaction Graph** $G=(V, E)$).
 
-### Key Features
-*   **`treewidth`**: Size of the largest bag in optimal tree decomposition - 1. Low treewidth ($\sim 1$) implies efficient tensor contraction.
-*   **`max_cutwidth`**: Max edges crossing any linear partition. Proxies simulation memory overhead.
-    $\text{cutwidth} = \max_i | \{ (u,v) \in E : u \le i < v \} |$
-*   **`avg_2q_dist`**: Avg linear distance between interacting qubits. High values signal non-local interactions.
-    $D_{avg} = \frac{1}{N_{2q}} \sum_{(u,v) \in \text{gates}} |u - v|$
-*   **Densities**: Entangling power per gate ($\rho_{2q}$) and per qubit ($\rho_{ent}$).
-    $\rho_{2q} = \frac{N_{2q}}{N_{total}}, \quad \rho_{ent} = \frac{N_{2q}}{N_{qubits}}$
+### Feature Glossary
+We extracted the following features to capture the structural and computational properties of each circuit.
 
-**Impact**: High `treewidth`, `cutwidth`, and `avg_2q_dist` correlate directly with high entanglement entropy, making simulation exponentially harder.
+| Feature | Description & Formula | Relation to Entanglement & Threshold |
+| :--- | :--- | :--- |
+| **`treewidth`** | Complexity of the interaction graph's tree decomposition. <br> $tw(G) = \min_{\mathcal{T}} \max_{b \in \mathcal{T}} |b| - 1$ | **High Impact**. Low treewidth implies the state vector can be compressed (MPS/Tensor Network). High treewidth $\implies$ high entanglement $\implies$ lower simulation threshold. |
+| **`max_cutwidth`** | Max edges crossing any linear partition of qubits. <br> $cw = \max_i |\{(u,v) \in E : u \le i < v\}|$ | **High Impact**. Proxies the memory "bottleneck" during simulation. High cutwidth correlates with higher simulation cost and runtime. |
+| **`avg_2q_dist`** | Average distance between qubits in 2-qubit gates. <br> $D_{avg} = \frac{1}{N_{2q}} \sum |u-v|$ | **High Impact**. Long-range interactions spread entanglement rapidly across the system, increasing the difficulty of simulation (higher runtime). |
+| **`max_2q_dist`** | Maximum distance between interacting qubits. | **Moderate Impact**. Indicates the presence of at least one global operation, often necessitating full-state updates. |
+| **`two_qubit_gate_density`** | Proportion of gates that are 2-qubit (entangling). <br> $\rho_{2q} = N_{2q} / N_{total}$ | **High Impact**. More entangling gates typically allow entanglement to grow faster, reducing the threshold for efficient simulation. |
+| **`entanglement_density`** | Entangling gates per qubit. <br> $\rho_{ent} = N_{2q} / N_{qubits}$ | **High Impact**. Measures the "intensity" of entanglement operations relative to system size. |
+| **`clifford_gate_count`** | Count of H, S, CX, Z, etc. (Stabilizer operations). | **High Impact**. Clifford circuits are efficiently simulatable (Gottesman-Knill). High proportion $\implies$ easier simulation $\implies$ higher threshold. |
+| **`t_gate_count`** / **`s_gate_count`** | Counts of T (non-Clifford) and S gates. | **High Impact**. T-gates introduce "magic," breaking stabilizer simulability and exponentially increasing cost in some simulators. |
+| **`n_qubits`** | Total physical qubits used. | **Base Complexity**. runtime scales exponentially with qubits for full state-vector, but polynomially for some tensor methods (depending on treewidth). |
+| **`depth`** | Longest path of dependent operations. | **Moderate Impact**. Deeper circuits allow more time for entanglement to build up and spread. |
+| **`n_gates`** | Total gate count. | **Linear Impact**. Runtime generally scales linearly with gate count for a fixed state size, unless entanglement suggests otherwise. |
+| **`max_gate_arity`** | Max qubits involved in a single gate (typically 2). | **Sanity Check**. Ensures no unexpected multi-qubit gates are present. |
 
 ## 3. Modeling
 We implemented a two-stage chained pipeline: **Circuit Hardness (Threshold) $\to$ Execution Time**.
