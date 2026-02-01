@@ -139,16 +139,25 @@ y_val_time = df.loc[val_mask, target_time]
 
 results = []
 
+from sklearn.svm import SVC, SVR
+from sklearn.linear_model import LogisticRegression, LinearRegression
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+
 models_thresh = {
     'rf': RandomForestClassifier(n_estimators=200, random_state=42),
     'gb': GradientBoostingClassifier(n_estimators=200, random_state=42),
-    'xgb': XGBClassifier(n_estimators=200, eval_metric='logloss', random_state=42)
+    'xgb': XGBClassifier(n_estimators=200, eval_metric='logloss', random_state=42),
+    'svm': Pipeline([('scaler', StandardScaler()), ('clf', SVC(random_state=42))]),
+    'lr': Pipeline([('scaler', StandardScaler()), ('clf', LogisticRegression(random_state=42, max_iter=1000))])
 }
 
 models_time = {
     'rf': RandomForestRegressor(n_estimators=200, random_state=42),
     'gb': GradientBoostingRegressor(n_estimators=200, random_state=42),
-    'xgb': XGBRegressor(n_estimators=200, objective='reg:absoluteerror', random_state=42)
+    'xgb': XGBRegressor(n_estimators=200, objective='reg:absoluteerror', random_state=42),
+    'svm': Pipeline([('scaler', StandardScaler()), ('reg', SVR())]),
+    'lr': Pipeline([('scaler', StandardScaler()), ('reg', LinearRegression())])
 }
 
 best_thresh_model = None
@@ -187,6 +196,8 @@ for name, model in models_thresh.items():
 for name, model in models_time.items():
     model.fit(X_train, y_train_time)
     y_pred_log = model.predict(X_val)
+    # Clip log predictions to avoid overflow (exp(15) ~ 3e6 seconds, which is plenty)
+    y_pred_log = np.clip(y_pred_log, None, 15)
     y_pred = np.exp(y_pred_log)
     mae = mean_absolute_error(y_val_time, y_pred)
     print(f"{name:<10} | {'Runtime':<10} | {'MAE (s)':<10} | {mae:.4f}")
@@ -212,3 +223,19 @@ else:
     if le_path.exists():
         le_path.unlink()
 print("Done.")
+
+# --- Feature Importance Analysis ---
+print("\n--- Feature Importance Analysis ---")
+if hasattr(best_thresh_model, 'feature_importances_'):
+    print(f"\nTop 10 Features for Threshold Model ({best_thresh_model.__class__.__name__}):")
+    importances = best_thresh_model.feature_importances_
+    indices = np.argsort(importances)[::-1]
+    for i in range(min(10, len(indices))):
+        print(f"{feature_cols[indices[i]]:<30} | {importances[indices[i]]:.4f}")
+
+if hasattr(best_time_model, 'feature_importances_'):
+    print(f"\nTop 10 Features for Runtime Model ({best_time_model.__class__.__name__}):")
+    importances = best_time_model.feature_importances_
+    indices = np.argsort(importances)[::-1]
+    for i in range(min(10, len(indices))):
+        print(f"{feature_cols[indices[i]]:<30} | {importances[indices[i]]:.4f}")
