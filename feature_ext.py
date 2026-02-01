@@ -118,6 +118,32 @@ def extract_features(qasm_path, circuit_info=None):
         
         two_qubit_density = two_qubit_gates / total_gates if total_gates > 0 else 0.0
 
+        # --- High-Impact Features from Slide ---
+        # 1. Long-range Gates (Distance)
+        dists = []
+        # Re-derive edges with counts for distance Calc (edges map uses sorted tuples (a,b))
+        for (a, b), count in edges.items():
+            dist = abs(a - b)
+            # Add dist 'count' times because it represents 'count' gates
+            dists.extend([dist] * count)
+        
+        avg_2q_dist = sum(dists) / len(dists) if dists else 0
+        max_2q_dist = max(dists) if dists else 0
+        
+        # 2. Cross-cut Pressure (Max Cutwidth)
+        # For a linear topology (0, 1, ..., N-1), calculate cutsize at each gap
+        max_cutwidth = 0
+        if computed_n_qubits > 1:
+            # Check every cut between qubit i and i+1
+            for i in range(computed_n_qubits - 1):
+                cut_size = 0
+                for (u, v), count in edges.items():
+                    # Check if edge crosses the cut at i (one node <= i, one node > i)
+                    # edges keys are sorted (u < v)
+                    if u <= i and v > i:
+                        cut_size += count
+                max_cutwidth = max(max_cutwidth, cut_size)
+
         # Count specific important gates
         t_gate_count = gates.get('t', 0) + gates.get('tdg', 0)  # T and T-dagger gates
         s_gate_count = gates.get('s', 0) + gates.get('sdg', 0)  # S and S-dagger gates
@@ -135,6 +161,9 @@ def extract_features(qasm_path, circuit_info=None):
             'treewidth': treewidth,
             'max_gate_arity': max_gate_arity,
             'two_qubit_gate_density': two_qubit_density,
+            'avg_2q_dist': avg_2q_dist,
+            'max_2q_dist': max_2q_dist,
+            'max_cutwidth': max_cutwidth,
             't_gate_count': t_gate_count,
             's_gate_count': s_gate_count,
             'clifford_gate_count': clifford_gate_count

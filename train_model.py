@@ -81,6 +81,11 @@ def get_row_data(row):
     datum['s_gate_count'] = feats.get('s_gate_count', 0)
     datum['clifford_gate_count'] = feats.get('clifford_gate_count', 0)
     
+    # New Slide Features
+    datum['avg_2q_dist'] = feats.get('avg_2q_dist', 0)
+    datum['max_2q_dist'] = feats.get('max_2q_dist', 0)
+    datum['max_cutwidth'] = feats.get('max_cutwidth', 0)
+    
     gates = feats['gates']
     n_2q = gates.get('cx', 0) + gates.get('cz', 0) + gates.get('cp', 0)
     datum['entanglement_density'] = n_2q / feats['num_qubits'] if feats['num_qubits'] > 0 else 0
@@ -126,7 +131,7 @@ print(f"Validation samples: {len(val_df)} (from {len(val_files)} circuits)")
 exclude_cols = ['filename', 'target_threshold', 'target_runtime', 'backend_cpu', 'precision_single']
 potential_features = [c for c in df.columns if c not in exclude_cols]
 
-base_features = ['n_qubits', 'n_gates', 'depth', 'n_2q', 'entanglement_density', 'treewidth', 'max_gate_arity', 'two_qubit_gate_density', 't_gate_count', 's_gate_count', 'clifford_gate_count', 'q_depth', 'q_gates', 'backend_cpu', 'precision_single']
+base_features = ['n_qubits', 'n_gates', 'depth', 'n_2q', 'entanglement_density', 'treewidth', 'max_gate_arity', 'two_qubit_gate_density', 't_gate_count', 's_gate_count', 'clifford_gate_count', 'avg_2q_dist', 'max_2q_dist', 'max_cutwidth', 'q_depth', 'q_gates', 'backend_cpu', 'precision_single']
 gate_features = [c for c in potential_features if c.startswith('n_') and c not in base_features]
 feature_cols = base_features + gate_features
 
