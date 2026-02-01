@@ -25,8 +25,6 @@ We extracted the following features to capture the structural and computational 
     **Impact**: Higher intensity $\implies$ more complex state vector.
 *   **`clifford_gate_count`**: Count of stabilizer operations (H, S, CX).
     **Impact**: More Clifford gates $\implies$ easier simulation (Gottesman-Knill) $\implies$ higher threshold.
-*   **`t_gate_count` / `s_gate_count`**: Non-Clifford (T) and partial-Clifford (S) gates.
-    **Impact**: More T-gates $\implies$ more "magic" states $\implies$ exponentially harder simulation.
 *   **`n_qubits`**: Total physical qubits.
     **Impact**: More qubits $\implies$ larger state space $\implies$ exponential cost (for full state-vector).
 *   **`depth`**: Longest path of dependent operations.
