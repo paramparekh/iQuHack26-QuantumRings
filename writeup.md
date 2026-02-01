@@ -41,8 +41,8 @@ We implemented a two-stage chained pipeline: **Circuit Hardness (Threshold) $\to
 We designed a **2-Stage Chained Pipeline** to leverage the causal relationship between a circuit's simulation difficulty ("hardness") and its runtime.
 
 1.  **Stage 1: Hardness Prediction (RF Classifier)**
-    *   **Goal**: Predict the "Circuit Hardness" (Threshold) — the max bond dimension or error tolerance the simulator can handle. Lower thresholds indicate "harder" circuits that require more resources.
-    *   **Why**: Hardness is a fundamental property of the circuit structure, independent of the machine.
+    *   **Goal**: Predict the "Circuit Hardness" (Threshold). Lower thresholds indicate "harder" circuits that require more resources.
+
 2.  **Stage 2: Runtime Prediction (RF Regressor)**
     *   **Goal**: Predict `log(runtime)`.
     *   **Chained Input**: We feed the *predicted hardness* from Stage 1 as a direct feature into Stage 2. This explicit signal helps the regressor distinguish between "complex but small" vs "simple but large" circuits, improving accuracy by **~5s MAE**.
