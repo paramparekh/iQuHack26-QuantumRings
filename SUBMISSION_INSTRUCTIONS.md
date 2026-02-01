@@ -20,6 +20,11 @@ Copy/Paste the command below, but **REPLACE the paths** with where you unzipped 
 python predict.py --tasks holdout/tasks.json --circuits holdout/circuits --id-map holdout/id_map.json --out predictions.json
 ```
 
+**INPUTS EXPLAINED (What you type):**
+*   `--tasks holdout/tasks.json`: This points to the file inside the folder you just unzipped.
+*   `--circuits holdout/circuits`: This points to the folder containing the `.qasm` files.
+*   `--out predictions.json`: **THIS IS THE OUTPUT.** It will create a file named `predictions.json` right here in your main folder.
+
 **If they DID NOT providing `id_map.json`:** (Use this if you don't see one)
 ```bash
 python predict.py --tasks holdout/tasks.json --circuits holdout/circuits --out predictions.json
