@@ -49,7 +49,7 @@ We designed a **2-Stage Chained Pipeline** to leverage the causal relationship b
 
 ### Performance (Validation Set)
 *   **Threshold Accuracy**: **66.67%** (Exact Match)
-*   **Runtime MAE**: **~63s**
+*   **Runtime MAE**: **~62s**
 *   **Runtime Accuracy**: **84%** (within tolerance)
 
 ## 4. Limitations
