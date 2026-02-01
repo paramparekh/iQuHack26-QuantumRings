@@ -12,6 +12,9 @@
     "treewidth": 99,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.495,
+    "avg_2q_dist": 0.49748743718592964,
+    "max_2q_dist": 1,
+    "max_cutwidth": 1,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 100
@@ -35,6 +38,9 @@
     "treewidth": 7,
     "max_gate_arity": 3,
     "two_qubit_gate_density": 0.8248256342868695,
+    "avg_2q_dist": 2.235919748610104,
+    "max_2q_dist": 12,
+    "max_cutwidth": 4500,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 3287
@@ -54,6 +60,9 @@
     "treewidth": 29,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.3945578231292517,
+    "avg_2q_dist": 0.6590909090909091,
+    "max_2q_dist": 1,
+    "max_cutwidth": 2,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 88
@@ -72,6 +81,9 @@
     "treewidth": 29,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.24786324786324787,
+    "avg_2q_dist": 7.5,
+    "max_2q_dist": 29,
+    "max_cutwidth": 29,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 59
@@ -89,6 +101,9 @@
     "treewidth": 14,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.4666666666666667,
+    "avg_2q_dist": 0.4827586206896552,
+    "max_2q_dist": 1,
+    "max_cutwidth": 1,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 15
@@ -108,6 +123,9 @@
     "treewidth": 29,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.8870370370370371,
+    "avg_2q_dist": 9.330058939096267,
+    "max_2q_dist": 29,
+    "max_cutwidth": 241,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 75
@@ -126,6 +144,9 @@
     "treewidth": 129,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.2495164410058027,
+    "avg_2q_dist": 32.5,
+    "max_2q_dist": 129,
+    "max_cutwidth": 129,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 269
@@ -143,6 +164,9 @@
     "treewidth": 29,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.8969072164948454,
+    "avg_2q_dist": 10.101123595505618,
+    "max_2q_dist": 29,
+    "max_cutwidth": 675,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 1305
@@ -162,6 +186,9 @@
     "treewidth": 19,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.6187450357426529,
+    "avg_2q_dist": 6.682102628285357,
+    "max_2q_dist": 19,
+    "max_cutwidth": 401,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 779
@@ -183,6 +210,9 @@
     "treewidth": 9,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.9932358886642824,
+    "avg_2q_dist": 5.01963188583504,
+    "max_2q_dist": 10,
+    "max_cutwidth": 48876,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 38311
@@ -200,6 +230,9 @@
     "treewidth": 129,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.49615384615384617,
+    "avg_2q_dist": 0.4980694980694981,
+    "max_2q_dist": 1,
+    "max_cutwidth": 1,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 130
@@ -218,6 +251,9 @@
     "treewidth": 129,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.9701492537313433,
+    "avg_2q_dist": 43.166666666666664,
+    "max_2q_dist": 129,
+    "max_cutwidth": 4290,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 195
@@ -235,6 +271,9 @@
     "treewidth": 13,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.7647058823529411,
+    "avg_2q_dist": 4.642857142857143,
+    "max_2q_dist": 13,
+    "max_cutwidth": 98,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 364
@@ -256,6 +295,9 @@
     "treewidth": 5,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.9284525790349417,
+    "avg_2q_dist": 2.5057880676758684,
+    "max_2q_dist": 6,
+    "max_cutwidth": 643,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 559
@@ -274,6 +316,9 @@
     "treewidth": 29,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.8823529411764706,
+    "avg_2q_dist": 9.833333333333334,
+    "max_2q_dist": 29,
+    "max_cutwidth": 240,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 45
@@ -291,6 +336,9 @@
     "treewidth": 9,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.7297297297297297,
+    "avg_2q_dist": 3.413793103448276,
+    "max_2q_dist": 9,
+    "max_cutwidth": 75,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 270
@@ -308,6 +356,9 @@
     "treewidth": 15,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.3191489361702128,
+    "avg_2q_dist": 0.6521739130434783,
+    "max_2q_dist": 1,
+    "max_cutwidth": 2,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 30
@@ -327,6 +378,9 @@
     "treewidth": 98,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.9437417406078913,
+    "avg_2q_dist": 33.150451157316596,
+    "max_2q_dist": 98,
+    "max_cutwidth": 2549,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 248
@@ -348,6 +402,9 @@
     "treewidth": 18,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.6830065359477124,
+    "avg_2q_dist": 6.554585152838428,
+    "max_2q_dist": 19,
+    "max_cutwidth": 111,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 57
@@ -366,6 +423,9 @@
     "treewidth": 15,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.3333333333333333,
+    "avg_2q_dist": 3.5833333333333335,
+    "max_2q_dist": 12,
+    "max_cutwidth": 16,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 16
@@ -387,6 +447,9 @@
     "treewidth": 128,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.9293745224320489,
+    "avg_2q_dist": 43.31339657565942,
+    "max_2q_dist": 129,
+    "max_cutwidth": 4291,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 387
@@ -406,6 +469,9 @@
     "treewidth": 14,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.802547770700637,
+    "avg_2q_dist": 4.468085106382978,
+    "max_2q_dist": 14,
+    "max_cutwidth": 64,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 37
@@ -424,6 +490,9 @@
     "treewidth": 14,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.24561403508771928,
+    "avg_2q_dist": 3.75,
+    "max_2q_dist": 14,
+    "max_cutwidth": 14,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 24
@@ -441,6 +510,9 @@
     "treewidth": 29,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.48333333333333334,
+    "avg_2q_dist": 0.4915254237288136,
+    "max_2q_dist": 1,
+    "max_cutwidth": 1,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 30
@@ -460,6 +532,9 @@
     "treewidth": 28,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.835820895522388,
+    "avg_2q_dist": 9.744234800838575,
+    "max_2q_dist": 28,
+    "max_cutwidth": 238,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 73
@@ -479,6 +554,9 @@
     "treewidth": 9,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.6923076923076923,
+    "avg_2q_dist": 3.193548387096774,
+    "max_2q_dist": 9,
+    "max_cutwidth": 75,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 0
@@ -502,6 +580,9 @@
     "treewidth": 5,
     "max_gate_arity": 3,
     "two_qubit_gate_density": 0.7697160883280757,
+    "avg_2q_dist": 3.2733118971061095,
+    "max_2q_dist": 6,
+    "max_cutwidth": 241,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 126
@@ -521,6 +602,9 @@
     "treewidth": 14,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.3888888888888889,
+    "avg_2q_dist": 0.6511627906976745,
+    "max_2q_dist": 1,
+    "max_cutwidth": 2,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 43
@@ -538,6 +622,9 @@
     "treewidth": 14,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.3333333333333333,
+    "avg_2q_dist": 1.8,
+    "max_2q_dist": 11,
+    "max_cutwidth": 6,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 45
@@ -557,6 +644,9 @@
     "treewidth": 129,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.3987635239567233,
+    "avg_2q_dist": 0.6649484536082474,
+    "max_2q_dist": 1,
+    "max_cutwidth": 2,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 388
@@ -576,6 +666,9 @@
     "treewidth": 16,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.8,
+    "avg_2q_dist": 5.538461538461538,
+    "max_2q_dist": 16,
+    "max_cutwidth": 216,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 0
@@ -594,6 +687,9 @@
     "treewidth": 14,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.7887323943661971,
+    "avg_2q_dist": 4.850393700787402,
+    "max_2q_dist": 14,
+    "max_cutwidth": 63,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 22
@@ -611,6 +707,9 @@
     "treewidth": 17,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.8360655737704918,
+    "avg_2q_dist": 6.09433962264151,
+    "max_2q_dist": 17,
+    "max_cutwidth": 243,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 918
@@ -628,6 +727,9 @@
     "treewidth": 29,
     "max_gate_arity": 2,
     "two_qubit_gate_density": 0.14285714285714285,
+    "avg_2q_dist": 2.5,
+    "max_2q_dist": 15,
+    "max_cutwidth": 6,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 12
@@ -651,6 +753,9 @@
     "treewidth": 11,
     "max_gate_arity": 3,
     "two_qubit_gate_density": 0.982643960944107,
+    "avg_2q_dist": 7.990529397133947,
+    "max_2q_dist": 16,
+    "max_cutwidth": 49501,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 25561
@@ -673,6 +778,9 @@
     "treewidth": 16,
     "max_gate_arity": 3,
     "two_qubit_gate_density": 0.4254062038404727,
+    "avg_2q_dist": 2.861047835990888,
+    "max_2q_dist": 10,
+    "max_cutwidth": 146,
     "t_gate_count": 0,
     "s_gate_count": 0,
     "clifford_gate_count": 320

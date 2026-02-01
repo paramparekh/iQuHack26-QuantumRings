@@ -24,6 +24,11 @@ def main():
     is_xgb = 'XGBClassifier' in str(type(rf_thresh))
     rf_time = joblib.load(model_dir / 'rf_runtime.joblib')
     feature_cols = joblib.load(model_dir / 'feature_cols.joblib')
+    try:
+        feature_cols_runtime = joblib.load(model_dir / 'feature_cols_runtime.joblib')
+    except:
+        feature_cols_runtime = feature_cols + ['input_threshold'] # Fallback
+
     
     le = None
     le_path = model_dir / 'label_encoder.joblib'
@@ -144,24 +149,49 @@ def main():
     # Select columns in correct order
     X = df[feature_cols].fillna(0)
     
-    # Predict
+    # Predict Threshold
     pred_thresh_raw = rf_thresh.predict(X)
-    pred_log_time = rf_time.predict(X)
+    
+    # We must predict Runtime row-by-row or vectorized?
+    # Vectorized is faster but we need to decode threshold first.
+    
+    # Decode Thresholds
+    if le and is_xgb:
+        pred_thresh_val = le.inverse_transform(pred_thresh_raw.astype(int))
+    else:
+        pred_thresh_val = pred_thresh_raw.astype(int)
+        
+    # Prepare Runtime Input
+    # Runtime model needs 'input_threshold'. Even if feature_cols says it's there?
+    # Wait, X was built from feature_cols. If feature_cols didn't have input_threshold, X doesn't.
+    # We need separate feature cols?
+    # In train_model.py we might have saved DIFFERENT feature_cols for runtime?
+    # Yes: joblib.dump(feats_r, MODELS_DIR / 'feature_cols_runtime.joblib')
+    # predict.py loads 'feature_cols.joblib' at line 26.
+    # It SHOULD load 'feature_cols_runtime.joblib' too.
+    
+    # Let's fix imports first!
+    pass
+
+    # We need to load the runtime feature columns at the start of main
+    # Then here:
+    X_runtime = X.copy()
+    X_runtime['input_threshold'] = pred_thresh_val
+    
+    # Ensure column order matches training
+    # Align columns
+    for c in feature_cols_runtime:
+        if c not in X_runtime.columns:
+            X_runtime[c] = 0
+    X_runtime = X_runtime[feature_cols_runtime]
+    
+    pred_log_time = rf_time.predict(X_runtime)
     pred_time = np.exp(pred_log_time)
     
     # Construct Results
     results = []
     for i, t_id in enumerate(task_ids):
-        p_raw = pred_thresh_raw[i]
-        
-        if le and is_xgb:
-            # Decode label
-            # XGBoost/LabelEncoder outputs 0..N-1, we need 1, 2, 4...
-            # inverse_transform expects array-like
-            p_val = int(le.inverse_transform([int(p_raw)])[0])
-        else:
-            p_val = int(p_raw)
-            
+        p_val = int(pred_thresh_val[i])
         p_t = float(pred_time[i])
         
         results.append({

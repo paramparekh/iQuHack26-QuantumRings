@@ -7,176 +7,203 @@ from qiskit import QuantumCircuit
 import networkx as nx
 from pathlib import Path
 
-SCRIPT_DIR = Path(__file__).parent
-CIRCUIT_PATH = SCRIPT_DIR / "circuits/"
-training_data_path = SCRIPT_DIR / "data/hackathon_public.json"
-output_path = SCRIPT_DIR / "circuit_features.json"
-skip_prefixes = ('//', 'OPENQASM', 'include', 'qreg', 'creg', 'barrier')
-# Load training data (if available)
-def parse_circuits():
-    try:
-        with open(training_data_path, 'r') as f:
-            training_data = json.load(f)
-    except FileNotFoundError:
-        training_data = {'circuits': []}
-    return training_data
+# Config
+DEFAULT_OUTPUT_PATH = "circuit_features.json"
 
-# Create a mapping from filename to circuit info
-def get_circuit_details(training_data):
-    circuit_details = {}
-    circuit_info = {}
-    for circuit in training_data.get('circuits', []):
-        circuit_info[circuit['file']] = {
-            'family': circuit.get('family', 'Unknown'),
-            'n_qubits': circuit.get('n_qubits')
-    }
+def extract_features(qasm_path, circuit_info=None):
+    """
+    Extracts features from a single QASM file.
+    """
+    path = Path(qasm_path)
+    if not path.exists():
+        return None
 
     # regex to find qubit operands like q[0], qreg[12], reg_name[3]
     qubit_regex = re.compile(r'([A-Za-z_]\w*)\[(\d+)\]')
+    skip_prefixes = ('//', 'OPENQASM', 'include', 'qreg', 'creg', 'barrier')
 
-    for fname in os.listdir(CIRCUIT_PATH):
-        if not fname.endswith('.qasm'):
-            continue
-        full_path = os.path.join(CIRCUIT_PATH, fname)
+    fname = path.name
+    
+    # Attempt to infer qubit count from filename
+    filename_parts = fname.split('_')
+    qubits = None
+    if len(filename_parts) >= 3 and filename_parts[-2].startswith('n'):
+        try:
+           qubits = int(filename_parts[-2][1:])
+        except ValueError:
+           pass
+    elif len(filename_parts) > 0 and filename_parts[-1].startswith('k'): 
+         try:
+            qubits = int(filename_parts[-1][1:])
+         except ValueError:
+            pass
+    
+    gates = defaultdict(int)
+    edges = defaultdict(int)
+    max_index = -1
+    max_gate_arity = 1 
 
-        # Attempt to infer qubit count from filename if available
-        filename_parts = fname.split('_')
-        qubits = None
-        if len(filename_parts) >= 3 and filename_parts[-2].startswith('n'):
-            try:
-                qubits = int(filename_parts[-2][1:])
-            except ValueError:
-                qubits = None
-        elif filename_parts[-1].startswith('k'):
-            try:
-                qubits = int(filename_parts[-1][1:])
-            except ValueError:
-                qubits = None
-        else:
-            try:
-                qubits = int(filename_parts[-1].split('.')[0])
-            except ValueError:
-                qubits = None
+    try:
+        with open(path, 'r') as f:
+            content = f.read()
 
-        # Extract gate counts and build interaction graph
-        gates = defaultdict(int)  # Count each gate type
-        edges = defaultdict(int)   # Count qubit interactions
-        max_index = -1             # Track highest qubit index
-        max_gate_arity = 1         # Track maximum number of qubits per gate
-
-        with open(full_path, 'r') as f:
-            circuit = f.read()
-
-        # Parse each line of the QASM file
-        for line in circuit.splitlines():
+        for line in content.splitlines():
             line = line.strip()
-            # Skip comments, headers, and declarations
             if not line or line.startswith(skip_prefixes):
                 continue
 
-            # Extract gate name (first token before whitespace or '(')
             m = re.match(r'([A-Za-z_]\w*)', line)
             if not m:
                 continue
             gate_name = m.group(1)
             gates[gate_name] += 1
 
-            # Find all qubit indices used in this gate
             qubit_matches = qubit_regex.findall(line)
-            if not qubit_matches:
-                continue
             indices = [int(idx) for (_, idx) in qubit_matches]
+            
             if indices:
                 max_index = max(max_index, max(indices))
             
-            # Update max gate arity (number of qubits this gate operates on)
             gate_arity = len(indices)
-            max_gate_arity = max(max_gate_arity, gate_arity)
+            if gate_arity > 0:
+                 max_gate_arity = max(max_gate_arity, gate_arity)
             
-            # Build interaction graph: count qubit pairs that appear together
             if len(indices) >= 2:
                 for a, b in combinations(sorted(indices), 2):
                     edges[(a, b)] += 1
-
-        # Determine number of qubits (priority: JSON metadata > filename > max index)
+        
+        # Determine n_qubits
         computed_n_qubits = None
-        if circuit_info.get(fname, {}).get('n_qubits') is not None:
-            computed_n_qubits = circuit_info[fname]['n_qubits']  # From JSON metadata
+        if circuit_info and circuit_info.get('n_qubits'):
+            computed_n_qubits = circuit_info['n_qubits']
         elif qubits is not None:
-            computed_n_qubits = qubits  # From filename parsing
+             computed_n_qubits = qubits
         else:
-            computed_n_qubits = max_index + 1 if max_index >= 0 else 0  # From circuit content
+             computed_n_qubits = max_index + 1 if max_index >= 0 else 0
 
-        # Load QASM circuit and calculate depth using Qiskit
+        # Load Qiskit for depth
         try:
-            qc = QuantumCircuit.from_qasm_file(full_path)
-            circuit_depth = qc.depth()  # Number of time steps for sequential execution
-        except Exception as e:
-            print(f"Error loading {fname}: {e}")
-            circuit_depth = None
-
-        # Build interaction graph and calculate treewidth
-        nodes = list(range(computed_n_qubits))
+            qc = QuantumCircuit.from_qasm_file(str(path))
+            circuit_depth = qc.depth()
+        except Exception:
+            # print(f"Error loading {fname} with Qiskit: {e}")
+            circuit_depth = 0 
+        
+        # Treewidth
+        nodes = list(range(computed_n_qubits)) if computed_n_qubits > 0 else []
         edges_list = [[a, b, w] for (a, b), w in edges.items()]
         
-        # Create NetworkX graph for treewidth calculation
-        G = nx.Graph()
-        G.add_nodes_from(nodes)  # Qubits as nodes
-        for a, b, w in edges_list:
-            G.add_edge(a, b, weight=w)  # Multi-qubit gates as weighted edges
-        
-        # Calculate treewidth: measures how "tree-like" the circuit connectivity is
-        try:
-            # Use minimum degree heuristic for treewidth approximation
-            # Lower treewidth = more tree-like, easier to simulate/optimize
-            # Higher treewidth = more complex connectivity, harder to simulate
-            treewidth_decomp = nx.algorithms.approximation.treewidth_min_degree(G)
-            treewidth = treewidth_decomp[0] 
-        except Exception as e:
-            print(f"Error calculating treewidth for {fname}: {e}")
-            treewidth = None
-        
-        # Clean up NetworkX objects to prevent JSON serialization errors
-        G.clear()
-        del G
+        treewidth = 1 
+        if nodes:
+            G = nx.Graph()
+            G.add_nodes_from(nodes)
+            for a, b, w in edges_list:
+                G.add_edge(a, b, weight=w)
+            
+            try:
+                treewidth_decomp = nx.algorithms.approximation.treewidth_min_degree(G)
+                treewidth = treewidth_decomp[0]
+            except Exception:
+                treewidth = 1
+            G.clear()
 
+        # Gate Count
+        n_gates = sum(gates.values())
+        
+        # New Feature Logic Integration
         # Calculate two-qubit gate density
-        total_gates = sum(gates.values())
+        total_gates = n_gates
         two_qubit_gates = sum(count for gate, count in gates.items() 
                             if any(gate.startswith(prefix) for prefix in ['cx', 'cz', 'ch', 'swap', 'cp', 'cu1', 'cu2', 'cu3', 'rxx', 'ryy', 'rzz', 'rzx']))
         
         two_qubit_density = two_qubit_gates / total_gates if total_gates > 0 else 0.0
 
+        # --- High-Impact Features from Slide ---
+        # 1. Long-range Gates (Distance)
+        dists = []
+        # Re-derive edges with counts for distance Calc (edges map uses sorted tuples (a,b))
+        for (a, b), count in edges.items():
+            dist = abs(a - b)
+            # Add dist 'count' times because it represents 'count' gates
+            dists.extend([dist] * count)
+        
+        avg_2q_dist = sum(dists) / len(dists) if dists else 0
+        max_2q_dist = max(dists) if dists else 0
+        
+        # 2. Cross-cut Pressure (Max Cutwidth)
+        # For a linear topology (0, 1, ..., N-1), calculate cutsize at each gap
+        max_cutwidth = 0
+        if computed_n_qubits > 1:
+            # Check every cut between qubit i and i+1
+            for i in range(computed_n_qubits - 1):
+                cut_size = 0
+                for (u, v), count in edges.items():
+                    # Check if edge crosses the cut at i (one node <= i, one node > i)
+                    # edges keys are sorted (u < v)
+                    if u <= i and v > i:
+                        cut_size += count
+                max_cutwidth = max(max_cutwidth, cut_size)
+
         # Count specific important gates
         t_gate_count = gates.get('t', 0) + gates.get('tdg', 0)  # T and T-dagger gates
         s_gate_count = gates.get('s', 0) + gates.get('sdg', 0)  # S and S-dagger gates
         
-        # Count Clifford gates (efficient to implement in fault-tolerant systems)
+        # Count Clifford gates
         clifford_gates = ['h', 'x', 'y', 'z', 's', 'sdg', 'cx', 'cz', 'swap', 'ch', 'cy', 'cz']
         clifford_gate_count = sum(gates.get(gate, 0) for gate in clifford_gates)
 
-        circuit_data = {
+        return {
+            'filename': fname,
             'gates': dict(gates),
-            'family': circuit_info.get(fname, {}).get('family', 'Unknown'),
             'num_qubits': computed_n_qubits,
             'depth': circuit_depth,
+            'gate_count': n_gates,
             'treewidth': treewidth,
             'max_gate_arity': max_gate_arity,
             'two_qubit_gate_density': two_qubit_density,
+            'avg_2q_dist': avg_2q_dist,
+            'max_2q_dist': max_2q_dist,
+            'max_cutwidth': max_cutwidth,
             't_gate_count': t_gate_count,
             's_gate_count': s_gate_count,
             'clifford_gate_count': clifford_gate_count
         }
-        circuit_details[fname] = circuit_data
 
-    # Save to JSON file
+    except Exception as e:
+        print(f"Error processing {fname}: {e}")
+        return None
+
+def main():
+    # Paths relative to this script
+    script_dir = Path(__file__).parent
+    circuit_path = script_dir / "circuits"
+    data_path = script_dir / "data/hackathon_public.json"
+    output_path = script_dir / "circuit_features.json" 
+    
+    print(f"Reading circuits from {circuit_path}...")
+    
+    # Load metadata
+    circuit_info = {}
+    if data_path.exists():
+        with open(data_path, 'r') as f:
+            d = json.load(f)
+            for row in d.get('results', []):
+                circuit_info[row['file']] = {
+                    'n_qubits': None 
+                }
+    
+    features_map = {}
+    if circuit_path.exists():
+        for fname in os.listdir(circuit_path):
+            if fname.endswith('.qasm'):
+                fpath = circuit_path / fname
+                feats = extract_features(fpath, circuit_info.get(fname))
+                if feats:
+                    features_map[fname] = feats
+    
+    print(f"Saving {len(features_map)} feature sets to {output_path}")
     with open(output_path, 'w') as f:
-        json.dump(circuit_details, f, indent=2)
-
-    return circuit_details
+        json.dump(features_map, f, indent=2)
 
 if __name__ == "__main__":
-    training_data = parse_circuits()
-    circuit_details = get_circuit_details(training_data)
-    print(f"Circuit features (with interaction graphs) saved to {output_path}")
-    print(f"Processed {len(circuit_details)} circuit files")
+    main()
